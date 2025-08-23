@@ -6,7 +6,7 @@ and parameter information from function signatures.
 """
 
 import pytest
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Union
 from dataclasses import dataclass
 from pyramid_type_hinted_api.inspection import (
     inspect_function_signature,
@@ -298,16 +298,20 @@ def test_get_list_item_type():
     assert get_list_item_type(list) is None  # No type args
 
 
-def test_is_basic_type():
-    """Test is_basic_type function."""
-    assert is_basic_type(int) is True
-    assert is_basic_type(str) is True
-    assert is_basic_type(float) is True
-    assert is_basic_type(bool) is True
-    assert is_basic_type(bytes) is True
-    assert is_basic_type(list) is False
-    assert is_basic_type(dict) is False
-    assert is_basic_type(SampleDataClass) is False
+@pytest.mark.parametrize("type_hint", [
+    int, str, float, bool, bytes, list, dict
+])
+def test_is_basic_type_with_basic_types(type_hint):
+    """Test is_basic_type function with basic types."""
+    assert is_basic_type(type_hint) is True
+
+
+@pytest.mark.parametrize("type_hint", [
+    SampleDataClass, List[int], Optional[str], Union[int, str]
+])
+def test_is_basic_type_with_non_basic_types(type_hint):
+    """Test is_basic_type function with non-basic types."""
+    assert is_basic_type(type_hint) is False
 
 
 def test_validate_type_compatibility():

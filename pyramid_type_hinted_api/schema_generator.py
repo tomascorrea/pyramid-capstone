@@ -5,8 +5,8 @@ This module converts Python type hints into Marshmallow schemas for
 request validation and response serialization.
 """
 
-from typing import Type, Dict, Any, Optional, get_origin, get_args
-from marshmallow import Schema, fields, post_load
+from typing import Type, Dict, Any, Optional, List, get_origin, get_args
+from marshmallow import Schema, fields, post_load, post_dump
 from .inspection import FunctionSignature, ParameterInfo, is_list_type, get_list_item_type, is_basic_type
 from .exceptions import SchemaGenerationError
 
@@ -92,15 +92,14 @@ def generate_output_schema(return_type: Type, schema_name: str = "OutputSchema")
                 # Create schema for the item type
                 item_schema = _create_schema_from_type(item_type, f"{schema_name}Item")
                 
-                # Create a schema that serializes a list of items
-                class ListSchema(Schema):
-                    items = fields.List(fields.Nested(item_schema))
-                    
-                    @post_load
-                    def make_list(self, data: Dict[str, Any], **kwargs: Any) -> Any:
-                        return data['items']
+                # For list serialization, return a special marker that includes the item schema
+                # We'll handle this in the handler
+                class ListSchemaInfo:
+                    def __init__(self, item_schema):
+                        self.item_schema = item_schema
+                        self.is_list_schema = True
                 
-                return type(schema_name, (ListSchema,), {})
+                return ListSchemaInfo(item_schema)
             else:
                 # List of basic types - no schema needed
                 return None

@@ -96,9 +96,20 @@ def handle_response(
     # If output schema is provided, serialize the result
     if output_schema:
         try:
-            schema_instance = output_schema()
-            serialized_result = schema_instance.dump(result)
-            return serialized_result
+            # Check if this is a list schema info (special case for lists)
+            if hasattr(output_schema, 'is_list_schema') and output_schema.is_list_schema:
+                # Handle list serialization
+                if isinstance(result, list):
+                    item_schema_instance = output_schema.item_schema()
+                    serialized_result = [item_schema_instance.dump(item) for item in result]
+                    return serialized_result
+                else:
+                    return result
+            else:
+                # Handle regular schema serialization
+                schema_instance = output_schema()
+                serialized_result = schema_instance.dump(result)
+                return serialized_result
         except Exception as e:
             # If serialization fails, log error and return raw result
             # In production, you might want to log this properly

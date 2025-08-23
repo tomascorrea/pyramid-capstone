@@ -64,7 +64,8 @@ def pyramid_app(pyramid_config):
         # Scan packages for decorated views
         scan_packages = scan_packages or ['pyramid_type_hinted_api']
         for package in scan_packages:
-            config.scan(package)
+            # Scan with our custom venusian category
+            config.scan(package, categories=['pyramid_type_hinted'])
         
         # Create and return the WSGI app
         return config.make_wsgi_app()
