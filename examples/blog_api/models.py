@@ -6,13 +6,14 @@ pyramid-capstone's automatic schema generation.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional
 from datetime import datetime
 from enum import Enum
+from typing import List, Optional
 
 
 class PostStatus(str, Enum):
     """Post publication status."""
+
     DRAFT = "draft"
     PUBLISHED = "published"
     ARCHIVED = "archived"
@@ -21,6 +22,7 @@ class PostStatus(str, Enum):
 @dataclass
 class User:
     """User model representing blog authors and commenters."""
+
     id: int
     username: str
     email: str
@@ -28,65 +30,68 @@ class User:
     bio: Optional[str] = None
     is_active: bool = True
     created_at: Optional[datetime] = None
-    
+
     def __json__(self, request=None):
         """Convert to JSON-serializable dict."""
         return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email,
-            'full_name': self.full_name,
-            'bio': self.bio,
-            'is_active': self.is_active,
-            'created_at': self.created_at.isoformat() if self.created_at else None
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "full_name": self.full_name,
+            "bio": self.bio,
+            "is_active": self.is_active,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
 
 @dataclass
 class Category:
     """Category model for organizing blog posts."""
+
     id: int
     name: str
     slug: str
     description: Optional[str] = None
     post_count: int = 0
-    
+
     def __json__(self, request=None):
         """Convert to JSON-serializable dict."""
         return {
-            'id': self.id,
-            'name': self.name,
-            'slug': self.slug,
-            'description': self.description,
-            'post_count': self.post_count
+            "id": self.id,
+            "name": self.name,
+            "slug": self.slug,
+            "description": self.description,
+            "post_count": self.post_count,
         }
 
 
 @dataclass
 class Comment:
     """Comment model for post discussions."""
+
     id: int
     post_id: int
     author_id: int
     content: str
     created_at: datetime
     author: Optional[User] = None  # Will be populated when needed
-    
+
     def __json__(self, request=None):
         """Convert to JSON-serializable dict."""
         return {
-            'id': self.id,
-            'post_id': self.post_id,
-            'author_id': self.author_id,
-            'content': self.content,
-            'created_at': self.created_at.isoformat(),
-            'author': self.author.__json__(request) if self.author else None
+            "id": self.id,
+            "post_id": self.post_id,
+            "author_id": self.author_id,
+            "content": self.content,
+            "created_at": self.created_at.isoformat(),
+            "author": self.author.__json__(request) if self.author else None,
         }
 
 
 @dataclass
 class Post:
     """Blog post model with full details."""
+
     id: int
     title: str
     slug: str
@@ -103,33 +108,35 @@ class Post:
     author: Optional[User] = None
     category: Optional[Category] = None
     comments: List[Comment] = field(default_factory=list)
-    
+
     def __json__(self, request=None):
         """Convert to JSON-serializable dict."""
         return {
-            'id': self.id,
-            'title': self.title,
-            'slug': self.slug,
-            'content': self.content,
-            'author_id': self.author_id,
-            'excerpt': self.excerpt,
-            'category_id': self.category_id,
-            'status': self.status.value,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
-            'published_at': self.published_at.isoformat() if self.published_at else None,
-            'view_count': self.view_count,
-            'author': self.author.__json__(request) if self.author else None,
-            'category': self.category.__json__(request) if self.category else None,
-            'comments': [comment.__json__(request) for comment in self.comments] if self.comments else []
+            "id": self.id,
+            "title": self.title,
+            "slug": self.slug,
+            "content": self.content,
+            "author_id": self.author_id,
+            "excerpt": self.excerpt,
+            "category_id": self.category_id,
+            "status": self.status.value,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "published_at": self.published_at.isoformat() if self.published_at else None,
+            "view_count": self.view_count,
+            "author": self.author.__json__(request) if self.author else None,
+            "category": self.category.__json__(request) if self.category else None,
+            "comments": [comment.__json__(request) for comment in self.comments] if self.comments else [],
         }
 
 
 # Request/Response models for API operations
 
+
 @dataclass
 class CreateUserRequest:
     """Request model for creating a new user."""
+
     username: str
     email: str
     full_name: str
@@ -139,6 +146,7 @@ class CreateUserRequest:
 @dataclass
 class UpdateUserRequest:
     """Request model for updating user information."""
+
     full_name: Optional[str] = None
     bio: Optional[str] = None
     is_active: Optional[bool] = None
@@ -147,6 +155,7 @@ class UpdateUserRequest:
 @dataclass
 class CreateCategoryRequest:
     """Request model for creating a new category."""
+
     name: str
     slug: str
     description: Optional[str] = None
@@ -155,6 +164,7 @@ class CreateCategoryRequest:
 @dataclass
 class CreatePostRequest:
     """Request model for creating a new blog post."""
+
     title: str
     content: str
     excerpt: Optional[str] = None
@@ -165,6 +175,7 @@ class CreatePostRequest:
 @dataclass
 class UpdatePostRequest:
     """Request model for updating a blog post."""
+
     title: Optional[str] = None
     content: Optional[str] = None
     excerpt: Optional[str] = None
@@ -175,6 +186,7 @@ class UpdatePostRequest:
 @dataclass
 class CreateCommentRequest:
     """Request model for creating a new comment."""
+
     content: str
     author_id: int
 
@@ -182,6 +194,7 @@ class CreateCommentRequest:
 @dataclass
 class PaginatedResponse:
     """Generic paginated response wrapper."""
+
     items: List[dict]  # Will contain the actual items
     total: int
     page: int
@@ -192,6 +205,7 @@ class PaginatedResponse:
 @dataclass
 class PostSummary:
     """Simplified post model for list views."""
+
     id: int
     title: str
     slug: str
@@ -202,18 +216,18 @@ class PostSummary:
     created_at: Optional[datetime]
     view_count: int
     comment_count: int = 0
-    
+
     def __json__(self, request=None):
         """Convert to JSON-serializable dict."""
         return {
-            'id': self.id,
-            'title': self.title,
-            'slug': self.slug,
-            'excerpt': self.excerpt,
-            'author': self.author.__json__(request) if self.author else None,
-            'category': self.category.__json__(request) if self.category else None,
-            'status': self.status.value,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'view_count': self.view_count,
-            'comment_count': self.comment_count
+            "id": self.id,
+            "title": self.title,
+            "slug": self.slug,
+            "excerpt": self.excerpt,
+            "author": self.author.__json__(request) if self.author else None,
+            "category": self.category.__json__(request) if self.category else None,
+            "status": self.status.value,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "view_count": self.view_count,
+            "comment_count": self.comment_count,
         }

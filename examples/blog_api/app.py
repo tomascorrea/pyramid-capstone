@@ -6,7 +6,6 @@ pyramid-capstone for automatic API endpoint registration.
 """
 
 from pyramid.config import Configurator
-from pyramid.response import Response
 
 
 def create_app(global_config, data_store_factory=None, **settings):
@@ -15,29 +14,30 @@ def create_app(global_config, data_store_factory=None, **settings):
     if data_store_factory:
         import examples.blog_api.data_store
         import examples.blog_api.views
+
         # Replace the global data store with the factory-created one
         examples.blog_api.data_store.blog_store = data_store_factory()
         examples.blog_api.views.blog_store = examples.blog_api.data_store.blog_store
-    
+
     # Create Pyramid configurator
     config = Configurator(settings=settings)
-    
+
     # Include Cornice for REST API support
-    config.include('cornice')
-    
+    config.include("cornice")
+
     # Include our pyramid-capstone library
-    config.include('pyramid_capstone')
-    
+    config.include("pyramid_capstone")
+
     # Include pycornmarsh for OpenAPI documentation
-    config.include('pycornmarsh')
-    
+    config.include("pycornmarsh")
+
     # Scan for pyramid-capstone decorated views
-    config.scan('examples.blog_api.views', categories=['pyramid_type_hinted'])
-    
+    config.scan("examples.blog_api.views", categories=["pyramid_type_hinted"])
+
     # Add a simple root view for testing
-    config.add_route('root', '/')
-    config.add_view(root_view, route_name='root', renderer='json')
-    
+    config.add_route("root", "/")
+    config.add_view(root_view, route_name="root", renderer="json")
+
     # Create and return the WSGI application
     return config.make_wsgi_app()
 
@@ -45,29 +45,19 @@ def create_app(global_config, data_store_factory=None, **settings):
 def root_view(request):
     """Simple root endpoint that provides API information."""
     return {
-        'message': 'Welcome to the Blog API Example',
-        'description': 'A comprehensive demonstration of pyramid-capstone with automatic OpenAPI documentation',
-        'version': '1.0.0',
-        'documentation': {
-            'swagger_ui': '/swagger-ui/',
-            'redoc': '/redoc/',
-            'openapi_json': '/openapi.json'
-        },
-        'features_demonstrated': [
-            'Type-hinted API endpoints with automatic validation',
-            'CRUD operations for multiple entities (users, posts, categories, comments)',
-            'Complex return types (nested objects, lists)',
-            'Query parameter handling (pagination, filtering)',
-            'Optional parameters with defaults',
-            'Error handling with proper HTTP status codes',
-            'Automatic OpenAPI documentation generation',
-            'Real-world API patterns and relationships'
+        "message": "Welcome to the Blog API Example",
+        "description": "A comprehensive demonstration of pyramid-capstone with automatic OpenAPI documentation",
+        "version": "1.0.0",
+        "documentation": {"swagger_ui": "/swagger-ui/", "redoc": "/redoc/", "openapi_json": "/openapi.json"},
+        "features_demonstrated": [
+            "Type-hinted API endpoints with automatic validation",
+            "CRUD operations for multiple entities (users, posts, categories, comments)",
+            "Complex return types (nested objects, lists)",
+            "Query parameter handling (pagination, filtering)",
+            "Optional parameters with defaults",
+            "Error handling with proper HTTP status codes",
+            "Automatic OpenAPI documentation generation",
+            "Real-world API patterns and relationships",
         ],
-        'quick_links': {
-            'health_check': '/health',
-            'blog_statistics': '/stats'
-        }
+        "quick_links": {"health_check": "/health", "blog_statistics": "/stats"},
     }
-
-
-

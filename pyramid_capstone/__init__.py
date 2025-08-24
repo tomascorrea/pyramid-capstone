@@ -14,11 +14,11 @@ Usage:
 
 from .decorators import th_api
 from .exceptions import (
-    TypeHintedAPIError,
     ParameterConflictError,
     ParameterMissingError,
     SchemaGenerationError,
     ServiceRegistrationError,
+    TypeHintedAPIError,
 )
 
 __version__ = "0.0.1"
@@ -27,13 +27,13 @@ __version__ = "0.0.1"
 def includeme(config):
     """
     Pyramid includeme function for pyramid-capstone.
-    
+
     This function is called when the library is included via config.include().
     It sets up any necessary configuration for the library.
     """
     # Ensure Cornice is included
-    config.include('cornice')
-    
+    config.include("cornice")
+
     # Add any additional configuration here if needed
     # For now, the library works through venusian scanning, so no additional setup is required
 
@@ -41,7 +41,7 @@ def includeme(config):
 __all__ = [
     "th_api",
     "TypeHintedAPIError",
-    "ParameterConflictError", 
+    "ParameterConflictError",
     "ParameterMissingError",
     "SchemaGenerationError",
     "ServiceRegistrationError",
