@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the first public release of **pyramid-capstone** (formerly pyramid-type-hinted-api), a FastAPI-like decorator system for the Pyramid web framework.
 
+**⚠️ Development Status**: This is an early development release (v0.1.x) and should NOT be used in production environments. The API may change significantly between versions until we reach v1.0.0.
+
 ### ✨ Features
 
 #### Core Functionality

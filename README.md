@@ -8,9 +8,15 @@
 
 **FastAPI-like decorators for Pyramid** - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
 
+> **⚠️ Development Status Warning**
+> 
+> **This project is in early development (v0.1.x) and should NOT be used in production environments.**
+> 
+> While we have comprehensive tests and the core functionality works, the API may change significantly between versions. Use at your own risk and expect breaking changes until we reach v1.0.0.
+
 - **📖 Documentation**: <https://tomas_correa.github.io/pyramid-capstone/>
 - **🔧 Source Code**: <https://github.com/tomas_correa/pyramid-capstone/>
-- **🐍 PyPI**: <https://pypi.org/project/pyramid-capstone/>
+- **🐍 PyPI**: <https://pypi.org/project/pyramid-capstone/
 
 ## ✨ What is pyramid-capstone?
 
