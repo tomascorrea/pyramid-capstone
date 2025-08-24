@@ -1,1 +1,1 @@
-::: pyramid_type_hinted_api
+::: pyramid_capstone

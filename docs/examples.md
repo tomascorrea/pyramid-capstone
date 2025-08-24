@@ -1,10 +1,10 @@
 # Examples
 
-This page showcases real-world examples and patterns using `pyramid-type-hinted-api`.
+This page showcases real-world examples and patterns using `pyramid-capstone`.
 
 ## Complete Blog API Example
 
-The repository includes a comprehensive [Blog API example](https://github.com/tomas_correa/pyramid-type-hinted-api/tree/main/examples/blog_api) that demonstrates:
+The repository includes a comprehensive [Blog API example](https://github.com/tomas_correa/pyramid-capstone/tree/main/examples/blog_api) that demonstrates:
 
 - **CRUD operations** for users, posts, comments, and categories
 - **Complex parameter handling** with filtering and pagination
@@ -16,8 +16,8 @@ The repository includes a comprehensive [Blog API example](https://github.com/to
 
 ```bash
 # Clone the repository
-git clone https://github.com/tomas_correa/pyramid-type-hinted-api.git
-cd pyramid-type-hinted-api
+git clone https://github.com/tomas_correa/pyramid-capstone.git
+cd pyramid-capstone
 
 # Install dependencies
 poetry install --with dev
@@ -35,7 +35,7 @@ pserve development.ini
 ### 1. Simple CRUD Operations
 
 ```python
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 from typing import List, Optional
 
 # In-memory storage for demo
@@ -163,7 +163,7 @@ def delete_book(request, book_id: int) -> dict:
 ```python
 import os
 import uuid
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 UPLOAD_DIR = "/tmp/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -399,7 +399,7 @@ def create_person(request,
 ```python
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 # Thread pool for background tasks
 executor = ThreadPoolExecutor(max_workers=4)
@@ -511,7 +511,7 @@ def list_tasks(request, status: Optional[str] = None) -> dict:
 ### 5. WebSocket Integration
 
 ```python
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 import json
 
 # WebSocket connections storage
@@ -600,7 +600,7 @@ def websocket_view(request):
 ### 6. API Versioning
 
 ```python
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 # Version 1 API
 @th_api.get('/v1/users/{user_id}')
@@ -673,7 +673,7 @@ def get_user_versioned(request, user_id: int) -> dict:
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 Base = declarative_base()
 
@@ -737,6 +737,6 @@ def get_user_posts(request, user_id: int, page: int = 1, per_page: int = 10) -> 
     }
 ```
 
-These examples demonstrate the flexibility and power of `pyramid-type-hinted-api` for building various types of APIs. Each pattern can be adapted and combined to meet your specific requirements.
+These examples demonstrate the flexibility and power of `pyramid-capstone` for building various types of APIs. Each pattern can be adapted and combined to meet your specific requirements.
 
-For more comprehensive examples, check out the [Blog API example](https://github.com/tomas_correa/pyramid-type-hinted-api/tree/main/examples/blog_api) in the repository.
+For more comprehensive examples, check out the [Blog API example](https://github.com/tomas_correa/pyramid-capstone/tree/main/examples/blog_api) in the repository.

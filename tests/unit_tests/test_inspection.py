@@ -8,7 +8,7 @@ and parameter information from function signatures.
 import pytest
 from typing import Optional, List, Dict, Any, Union
 from dataclasses import dataclass
-from pyramid_type_hinted_api.inspection import (
+from pyramid_capstone.inspection import (
     inspect_function_signature,
     ParameterInfo,
     FunctionSignature,

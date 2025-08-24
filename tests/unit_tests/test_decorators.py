@@ -6,8 +6,8 @@ This module tests the th_api decorators and their integration with venusian.
 
 import pytest
 from typing import Dict, Any
-from pyramid_type_hinted_api import th_api
-from pyramid_type_hinted_api.decorators import TypeHintedAPI
+from pyramid_capstone import th_api
+from pyramid_capstone.decorators import TypeHintedAPI
 
 
 def test_api_instance_creation():

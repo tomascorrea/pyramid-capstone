@@ -1,12 +1,12 @@
 """
 API endpoints for the Blog API example.
 
-This module demonstrates how to use pyramid-type-hinted-api to create
+This module demonstrates how to use pyramid-capstone to create
 clean, type-safe REST API endpoints with automatic validation and serialization.
 """
 
 from typing import List, Optional
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 from .models import (
     User, Category, Post, Comment, PostSummary, PaginatedResponse,
     CreateUserRequest, UpdateUserRequest, CreateCategoryRequest,

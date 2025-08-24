@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/tomas_correa/pyramid-type-hinted-api/issues
+Report bugs at https://github.com/tomas_correa/pyramid-capstone/issues
 
 If you are reporting a bug, please include:
 
@@ -44,7 +44,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/tomas_correa/pyramid-type-hinted-api/issues.
+https://github.com/tomas_correa/pyramid-capstone/issues.
 
 If you are proposing a new feature:
 
@@ -56,25 +56,25 @@ If you are proposing a new feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `pyramid-type-hinted-api` for local
+Ready to contribute? Here's how to set up `pyramid-capstone` for local
 development. Please note this documentation assumes you already have
 `poetry` and `Git` installed and ready to go.
 
-| 1. Fork the `pyramid-type-hinted-api` repo on GitHub. 
+| 1. Fork the `pyramid-capstone` repo on GitHub. 
 
 | 2. Clone your fork locally:
 
    .. code-block:: bash
 
         cd <directory_in_which_repo_should_be_created>
-        git clone git@github.com:YOUR_NAME/pyramid-type-hinted-api.git
+        git clone git@github.com:YOUR_NAME/pyramid-capstone.git
 
 
 | 3. Now we need to install the environment. Navigate into the directory
 
    .. code-block:: bash
 
-       cd pyramid-type-hinted-api
+       cd pyramid-capstone
 
    If you are using ``pyenv``, select a version to use locally. (See installed versions with ``pyenv versions``)
 

@@ -1,11 +1,11 @@
 """
-Pyramid Type-Hinted API
+Pyramid Capstone
 
 A FastAPI-like decorator system for Pyramid that automatically handles
 validation and serialization using Marshmallow schemas and Cornice services.
 
 Usage:
-    from pyramid_type_hinted_api import th_api
+    from pyramid_capstone import th_api
     
     @th_api.get('/users/{user_id}')
     def get_user(request, user_id: int) -> UserResponse:
@@ -26,7 +26,7 @@ __version__ = "0.0.1"
 
 def includeme(config):
     """
-    Pyramid includeme function for pyramid-type-hinted-api.
+    Pyramid includeme function for pyramid-capstone.
     
     This function is called when the library is included via config.include().
     It sets up any necessary configuration for the library.

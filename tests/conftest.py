@@ -1,5 +1,5 @@
 """
-Pytest configuration and fixtures for pyramid-type-hinted-api tests.
+Pytest configuration and fixtures for pyramid-capstone tests.
 
 This module provides reusable fixtures for testing the type-hinted API system,
 including a flexible Pyramid app factory and test client setup.
@@ -13,7 +13,7 @@ from pyramid.router import Router
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Allow, Everyone, Authenticated
 from webtest import TestApp
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 class StaticAuthenticationPolicy:
@@ -129,11 +129,11 @@ def pyramid_app(pyramid_config):
         # Create configurator with settings
         config = pyramid_config(settings, enable_security=enable_security)
         
-        # Include pyramid_type_hinted_api
-        config.include('pyramid_type_hinted_api')
+        # Include pyramid_capstone
+        config.include('pyramid_capstone')
         
         # Scan packages for decorated views
-        scan_packages = scan_packages or ['pyramid_type_hinted_api']
+        scan_packages = scan_packages or ['pyramid_capstone']
         for package in scan_packages:
             # Scan with our custom venusian category
             config.scan(package, categories=['pyramid_type_hinted'])

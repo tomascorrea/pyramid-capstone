@@ -2,6 +2,39 @@
 
 This file tracks the tasks currently being worked on (max 1-3 task groups).
 
+## Phase 9: Project Rebranding
+
+### Current Focus: Rename to pyramid-capstone
+
+#### Task Group 1: Complete Project Rename
+**Status**: COMPLETED
+**Priority**: High
+**Description**: Rename project from pyramid-type-hinted-api to pyramid-capstone
+
+**Subtasks**:
+- [x] Rename main package directory (pyramid_type_hinted_api → pyramid_capstone)
+- [x] Update pyproject.toml with new name and repository URLs
+- [x] Update all import statements throughout codebase
+- [x] Update README.md with new name and URLs
+- [x] Update all documentation files (docs/*.md)
+- [x] Update mkdocs.yml configuration
+- [x] Update example applications
+- [x] Update all test files
+- [x] Update planning documents
+- [x] Run tests to ensure everything works
+
+**Acceptance Criteria**:
+- [x] All references to old name are updated
+- [x] Package can be imported as `from pyramid_capstone import th_api`
+- [x] All tests pass
+- [x] Documentation reflects new name
+- [x] URLs point to new repository
+
+**Estimated Effort**: 1 hour
+**Dependencies**: GitHub repository created
+
+---
+
 ## Phase 6: Example Applications & Documentation
 
 ### Current Focus: Example Applications
@@ -9,7 +42,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 #### Task Group 1: Blog API Example Application
 **Status**: COMPLETED
 **Priority**: High
-**Description**: Create a comprehensive example application demonstrating real-world usage of pyramid-type-hinted-api
+**Description**: Create a comprehensive example application demonstrating real-world usage of pyramid-capstone
 
 **Subtasks**:
 - [x] Design the example application structure

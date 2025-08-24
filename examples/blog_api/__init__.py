@@ -1,7 +1,7 @@
 """
 Blog API Example Application
 
-This example demonstrates the pyramid-type-hinted-api library with a complete
+This example demonstrates the pyramid-capstone library with a complete
 blog application featuring users, posts, comments, and categories.
 
 Features demonstrated:

@@ -1,13 +1,13 @@
 # Security Integration
 
-`pyramid-type-hinted-api` integrates seamlessly with Pyramid's powerful security system, allowing you to protect your API endpoints with authentication and authorization.
+`pyramid-capstone` integrates seamlessly with Pyramid's powerful security system, allowing you to protect your API endpoints with authentication and authorization.
 
 ## Quick Start
 
 Add the `permission` parameter to any endpoint decorator:
 
 ```python
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 @th_api.get('/admin/users', permission='admin')
 def list_users_admin(request) -> list:
@@ -31,7 +31,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import SessionAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Allow, Everyone, Authenticated
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 class RootACL:
     """Root Access Control List."""
@@ -51,8 +51,8 @@ def main(global_config, **settings):
     config.set_authentication_policy(SessionAuthenticationPolicy())
     config.set_authorization_policy(ACLAuthorizationPolicy())
     
-    # Include pyramid-type-hinted-api
-    config.include('pyramid_type_hinted_api')
+    # Include pyramid-capstone
+    config.include('pyramid_capstone')
     config.scan()
     
     return config.make_wsgi_app()
@@ -79,7 +79,7 @@ def main(global_config, **settings):
     config.set_authentication_policy(jwt_policy)
     config.set_authorization_policy(ACLAuthorizationPolicy())
     
-    config.include('pyramid_type_hinted_api')
+    config.include('pyramid_capstone')
     config.scan()
     
     return config.make_wsgi_app()
@@ -377,7 +377,7 @@ def main(global_config, **settings):
     })
     
     config.include('pyramid_cors')
-    config.include('pyramid_type_hinted_api')
+    config.include('pyramid_capstone')
     config.scan()
     
     return config.make_wsgi_app()
@@ -503,6 +503,6 @@ def get_post_conditional(request, post_id: int) -> dict:
     return post.to_dict()
 ```
 
-Security is a crucial aspect of API development. The `pyramid-type-hinted-api` library makes it easy to integrate with Pyramid's robust security system while maintaining clean, readable code.
+Security is a crucial aspect of API development. The `pyramid-capstone` library makes it easy to integrate with Pyramid's robust security system while maintaining clean, readable code.
 
 For more examples of security implementations, see our [Examples](examples.md) guide.

@@ -5,7 +5,7 @@ Tests serialization of various return types: dict, dataclass, lists, optional fi
 """
 from dataclasses import dataclass
 from typing import List, Optional
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 @dataclass

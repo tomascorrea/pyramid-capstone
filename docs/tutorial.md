@@ -1,6 +1,6 @@
 # Tutorial: Building a Task Management API
 
-In this tutorial, we'll build a complete task management API that demonstrates all the key features of `pyramid-type-hinted-api`. You'll learn about parameter handling, validation, error handling, and more.
+In this tutorial, we'll build a complete task management API that demonstrates all the key features of `pyramid-capstone`. You'll learn about parameter handling, validation, error handling, and more.
 
 ## What We'll Build
 
@@ -32,7 +32,7 @@ authors = ["Your Name <your.email@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pyramid-type-hinted-api = "^0.1.0"
+pyramid-capstone = "^0.1.0"
 waitress = "^2.1.0"
 
 [build-system]
@@ -249,7 +249,7 @@ Create `views.py` with our API endpoints:
 ```python
 from typing import Optional, List
 from pyramid.request import Request
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 from .models import (
     Task, TaskResponse, TaskListResponse, TaskStatus, Priority,
     User, Category
@@ -477,8 +477,8 @@ def main(global_config, **settings):
     """Create and configure the Pyramid application."""
     config = Configurator(settings=settings)
     
-    # Include pyramid-type-hinted-api
-    config.include('pyramid_type_hinted_api')
+    # Include pyramid-capstone
+    config.include('pyramid_capstone')
     
     # Scan for decorated views
     config.scan()
@@ -529,7 +529,7 @@ curl "http://localhost:6543/tasks?page=1&per_page=5"
 curl -X POST http://localhost:6543/tasks \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Learn pyramid-type-hinted-api",
+    "title": "Learn pyramid-capstone",
     "description": "Complete the tutorial and build an API",
     "priority": "high"
   }'

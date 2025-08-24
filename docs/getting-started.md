@@ -1,19 +1,19 @@
 # Getting Started
 
-This guide will help you get up and running with `pyramid-type-hinted-api` in just a few minutes.
+This guide will help you get up and running with `pyramid-capstone` in just a few minutes.
 
 ## Installation
 
 Install the package using pip:
 
 ```bash
-poetry add pyramid-type-hinted-api
+poetry add pyramid-capstone
 ```
 
 Or if you're using pip:
 
 ```bash
-pip install pyramid-type-hinted-api
+pip install pyramid-capstone
 ```
 
 ## Requirements
@@ -32,7 +32,7 @@ Create a file called `app.py`:
 
 ```python
 from pyramid.config import Configurator
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 # Your API endpoints
 @th_api.get('/hello')
@@ -62,8 +62,8 @@ def main(global_config, **settings):
     """Create and configure the Pyramid application."""
     config = Configurator(settings=settings)
     
-    # Include pyramid-type-hinted-api
-    config.include('pyramid_type_hinted_api')
+    # Include pyramid-capstone
+    config.include('pyramid_capstone')
     
     # Scan for decorated views
     config.scan()
@@ -110,7 +110,7 @@ curl -X POST http://localhost:6543/users \
 
 ## What Just Happened?
 
-Let's break down what `pyramid-type-hinted-api` did for you:
+Let's break down what `pyramid-capstone` did for you:
 
 ### 🔍 Automatic Parameter Extraction
 
@@ -209,8 +209,8 @@ def main(global_config, **settings):
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'static', cache_max_age=3600)
     
-    # Add pyramid-type-hinted-api
-    config.include('pyramid_type_hinted_api')
+    # Add pyramid-capstone
+    config.include('pyramid_capstone')
     
     # Scan for both regular views and th_api decorated views
     config.scan()

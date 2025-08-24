@@ -2,7 +2,7 @@
 Pyramid application configuration for the Blog API example.
 
 This demonstrates how to set up a Pyramid application that uses
-pyramid-type-hinted-api for automatic API endpoint registration.
+pyramid-capstone for automatic API endpoint registration.
 """
 
 from pyramid.config import Configurator
@@ -25,13 +25,13 @@ def create_app(global_config, data_store_factory=None, **settings):
     # Include Cornice for REST API support
     config.include('cornice')
     
-    # Include our pyramid-type-hinted-api library
-    config.include('pyramid_type_hinted_api')
+    # Include our pyramid-capstone library
+    config.include('pyramid_capstone')
     
     # Include pycornmarsh for OpenAPI documentation
     config.include('pycornmarsh')
     
-    # Scan for pyramid-type-hinted-api decorated views
+    # Scan for pyramid-capstone decorated views
     config.scan('examples.blog_api.views', categories=['pyramid_type_hinted'])
     
     # Add a simple root view for testing
@@ -46,7 +46,7 @@ def root_view(request):
     """Simple root endpoint that provides API information."""
     return {
         'message': 'Welcome to the Blog API Example',
-        'description': 'A comprehensive demonstration of pyramid-type-hinted-api with automatic OpenAPI documentation',
+        'description': 'A comprehensive demonstration of pyramid-capstone with automatic OpenAPI documentation',
         'version': '1.0.0',
         'documentation': {
             'swagger_ui': '/swagger-ui/',

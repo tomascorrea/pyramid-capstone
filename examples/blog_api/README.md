@@ -1,6 +1,6 @@
 # Blog API Example
 
-This is a comprehensive example application demonstrating the `pyramid-type-hinted-api` library with a complete blog API featuring users, posts, comments, and categories.
+This is a comprehensive example application demonstrating the `pyramid-capstone` library with a complete blog API featuring users, posts, comments, and categories.
 
 ## Features Demonstrated
 
@@ -59,7 +59,7 @@ This is a comprehensive example application demonstrating the `pyramid-type-hint
 ## Running the Example
 
 ### Prerequisites
-Make sure you have the `pyramid-type-hinted-api` library installed with development dependencies:
+Make sure you have the `pyramid-capstone` library installed with development dependencies:
 
 ```bash
 # Install with development dependencies for OpenAPI documentation
@@ -231,4 +231,4 @@ def get_user(request, user_id: int) -> User:
     return user
 ```
 
-This example demonstrates how `pyramid-type-hinted-api` makes it easy to build robust, type-safe REST APIs with minimal boilerplate code while maintaining full compatibility with Pyramid's ecosystem.
+This example demonstrates how `pyramid-capstone` makes it easy to build robust, type-safe REST APIs with minimal boilerplate code while maintaining full compatibility with Pyramid's ecosystem.

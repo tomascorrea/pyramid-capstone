@@ -5,7 +5,7 @@ Tests path parameters, query parameters, and JSON body parameters.
 """
 from dataclasses import dataclass
 from typing import Optional
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 @dataclass

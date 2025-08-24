@@ -1,20 +1,20 @@
-# pyramid-type-hinted-api
+# pyramid-capstone
 
-[![Release](https://img.shields.io/github/v/release/tomas_correa/pyramid-type-hinted-api)](https://img.shields.io/github/v/release/tomas_correa/pyramid-type-hinted-api)
-[![Build status](https://img.shields.io/github/actions/workflow/status/tomas_correa/pyramid-type-hinted-api/main.yml?branch=main)](https://github.com/tomas_correa/pyramid-type-hinted-api/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/tomas_correa/pyramid-type-hinted-api/branch/main/graph/badge.svg)](https://codecov.io/gh/tomas_correa/pyramid-type-hinted-api)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-type-hinted-api)](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-type-hinted-api)
-[![License](https://img.shields.io/github/license/tomas_correa/pyramid-type-hinted-api)](https://img.shields.io/github/license/tomas_correa/pyramid-type-hinted-api)
+[![Release](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)
+[![Build status](https://img.shields.io/github/actions/workflow/status/tomas_correa/pyramid-capstone/main.yml?branch=main)](https://github.com/tomas_correa/pyramid-capstone/actions/workflows/main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/tomas_correa/pyramid-capstone/branch/main/graph/badge.svg)](https://codecov.io/gh/tomas_correa/pyramid-capstone)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-capstone)](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-capstone)
+[![License](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)
 
 **FastAPI-like decorators for Pyramid** - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
 
-- **📖 Documentation**: <https://tomas_correa.github.io/pyramid-type-hinted-api/>
-- **🔧 Source Code**: <https://github.com/tomas_correa/pyramid-type-hinted-api/>
-- **🐍 PyPI**: <https://pypi.org/project/pyramid-type-hinted-api/>
+- **📖 Documentation**: <https://tomas_correa.github.io/pyramid-capstone/>
+- **🔧 Source Code**: <https://github.com/tomas_correa/pyramid-capstone/>
+- **🐍 PyPI**: <https://pypi.org/project/pyramid-capstone/>
 
-## ✨ What is pyramid-type-hinted-api?
+## ✨ What is pyramid-capstone?
 
-`pyramid-type-hinted-api` brings the developer experience of FastAPI to the Pyramid web framework. Write clean, type-safe API endpoints with automatic request validation, response serialization, and OpenAPI documentation generation.
+`pyramid-capstone` brings the developer experience of FastAPI to the Pyramid web framework. Write clean, type-safe API endpoints with automatic request validation, response serialization, and OpenAPI documentation generation.
 
 ### 🎯 Key Features
 
@@ -29,7 +29,7 @@
 
 ```python
 from pyramid.config import Configurator
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 @th_api.get('/users/{user_id}')
 def get_user(request, user_id: int) -> dict:
@@ -43,7 +43,7 @@ def create_user(request, name: str, email: str) -> dict:
 # Pyramid app setup
 def main(global_config, **settings):
     config = Configurator(settings=settings)
-    config.include('pyramid_type_hinted_api')
+    config.include('pyramid_capstone')
     config.scan()
     return config.make_wsgi_app()
 ```
@@ -55,19 +55,19 @@ That's it! No manual schema definitions, no boilerplate validation code.
 ### Installation
 
 ```bash
-pip install pyramid-type-hinted-api
+pip install pyramid-capstone
 ```
 
 ### Basic Setup
 
 ```python
 from pyramid.config import Configurator
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 # Include the library in your Pyramid app
 def main(global_config, **settings):
     config = Configurator(settings=settings)
-    config.include('pyramid_type_hinted_api')
+    config.include('pyramid_capstone')
     
     # Scan for your decorated views
     config.scan()
@@ -75,9 +75,9 @@ def main(global_config, **settings):
     return config.make_wsgi_app()
 ```
 
-## 🎯 Why Choose pyramid-type-hinted-api?
+## 🎯 Why Choose pyramid-capstone?
 
-| Feature | pyramid-type-hinted-api | Pure Pyramid | Pure Cornice |
+| Feature | pyramid-capstone | Pure Pyramid | Pure Cornice |
 |---------|------------------------|---------------|--------------|
 | Type Safety | ✅ Built-in | ❌ Manual | ❌ Manual |
 | Auto Validation | ✅ Automatic | ❌ Manual | ⚠️ Schema required |
@@ -87,10 +87,10 @@ def main(global_config, **settings):
 
 ## 📚 Learn More
 
-- **[📖 Full Documentation](https://tomas_correa.github.io/pyramid-type-hinted-api/)** - Complete guides and API reference
-- **[🚀 Getting Started](https://tomas_correa.github.io/pyramid-type-hinted-api/getting-started/)** - Step-by-step tutorial
+- **[📖 Full Documentation](https://tomas_correa.github.io/pyramid-capstone/)** - Complete guides and API reference
+- **[🚀 Getting Started](https://tomas_correa.github.io/pyramid-capstone/getting-started/)** - Step-by-step tutorial
 - **[💡 Examples](examples/blog_api/)** - Complete blog API example with advanced features
-- **[🔒 Security Guide](https://tomas_correa.github.io/pyramid-type-hinted-api/security/)** - Authentication and authorization
+- **[🔒 Security Guide](https://tomas_correa.github.io/pyramid-capstone/security/)** - Authentication and authorization
 
 ## 🤝 Contributing
 

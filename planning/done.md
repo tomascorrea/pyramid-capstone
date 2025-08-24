@@ -18,18 +18,18 @@ This file contains all completed tasks for historical reference.
 **Duration**: ~2 hours
 
 ### Tasks Completed:
-- [x] Create basic decorator system (`pyramid_type_hinted_api/decorators.py`)
+- [x] Create basic decorator system (`pyramid_capstone/decorators.py`)
 - [x] Implement venusian integration with custom category "pyramid_type_hinted"
-- [x] Build function signature inspection (`pyramid_type_hinted_api/inspection.py`)
-- [x] Create parameter context system with conflict detection (`pyramid_type_hinted_api/context.py`)
-- [x] Define custom exceptions (`pyramid_type_hinted_api/exceptions.py`)
+- [x] Build function signature inspection (`pyramid_capstone/inspection.py`)
+- [x] Create parameter context system with conflict detection (`pyramid_capstone/context.py`)
+- [x] Define custom exceptions (`pyramid_capstone/exceptions.py`)
 
 ## Phase 2: Schema Generation ✅ (Completed)
 **Completed**: Initial development session  
 **Duration**: ~1.5 hours
 
 ### Tasks Completed:
-- [x] Implement basic type to Marshmallow field mapping (`pyramid_type_hinted_api/schema_generator.py`)
+- [x] Implement basic type to Marshmallow field mapping (`pyramid_capstone/schema_generator.py`)
 - [x] Handle complex types (List, Optional, Union)
 - [x] Support for custom classes/dataclasses
 - [x] Generate input and output schemas dynamically
@@ -40,7 +40,7 @@ This file contains all completed tasks for historical reference.
 **Duration**: ~1 hour
 
 ### Tasks Completed:
-- [x] Create Cornice services dynamically (`pyramid_type_hinted_api/service_builder.py`)
+- [x] Create Cornice services dynamically (`pyramid_capstone/service_builder.py`)
 - [x] Implement request validation using generated schemas
 - [x] Build response serialization pipeline
 - [x] Integrate with Cornice's error handling system
@@ -50,7 +50,7 @@ This file contains all completed tasks for historical reference.
 **Duration**: ~1.5 hours
 
 ### Tasks Completed:
-- [x] Create view handler that bridges Cornice and original function (`pyramid_type_hinted_api/handler.py`)
+- [x] Create view handler that bridges Cornice and original function (`pyramid_capstone/handler.py`)
 - [x] Implement pytest-style parameter injection
 - [x] Handle complete request/response lifecycle
 - [x] Support for path parameters, query parameters, and JSON body

@@ -4,7 +4,7 @@ Integration tests for basic th_api functionality.
 Tests the core features: simple endpoints, path parameters, and basic serialization.
 """
 from dataclasses import dataclass
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 @dataclass
@@ -18,7 +18,7 @@ class User:
 @th_api.get('/health')
 def health_check(request) -> dict:
     """Simple health check endpoint."""
-    return {'status': 'ok', 'service': 'pyramid-type-hinted-api'}
+    return {'status': 'ok', 'service': 'pyramid-capstone'}
 
 
 @th_api.get('/user/{user_id}')
@@ -44,7 +44,7 @@ def test_health_check(app_factory):
     response = app.get('/health')
     
     assert response.status_code == 200
-    assert response.json == {'status': 'ok', 'service': 'pyramid-type-hinted-api'}
+    assert response.json == {'status': 'ok', 'service': 'pyramid-capstone'}
 
 
 def test_get_user_with_path_param(app_factory):

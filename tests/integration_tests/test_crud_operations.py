@@ -5,7 +5,7 @@ Tests a complete CRUD API with proper path design to avoid routing conflicts.
 """
 from dataclasses import dataclass
 from typing import List, Optional
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 @dataclass

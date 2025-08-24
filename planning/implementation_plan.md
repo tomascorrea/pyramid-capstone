@@ -1,4 +1,4 @@
-# Pyramid Type-Hinted API Implementation Plan
+# Pyramid Capstone Implementation Plan
 
 ## Overview
 Create a FastAPI-like decorator system for Pyramid that automatically handles validation and serialization using Marshmallow schemas and Cornice services, with type hint inspection for automatic schema generation.
@@ -7,7 +7,7 @@ Create a FastAPI-like decorator system for Pyramid that automatically handles va
 
 ### Core Concept
 ```python
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 @th_api.post('/users/{user_id}')
 def update_user(request, user_id: int, name: str) -> UserResponse:
@@ -25,7 +25,7 @@ def update_user(request, user_id: int, name: str) -> UserResponse:
 ## Implementation Components
 
 ### 1. Decorator System (`th_api`)
-- **Location**: `pyramid_type_hinted_api/decorators.py`
+- **Location**: `pyramid_capstone/decorators.py`
 - **HTTP Methods**: `get`, `post`, `put`, `delete`, `patch`, `options`, `head`
 - **Venusian Integration**: Use category "pyramid_type_hinted"
 
@@ -44,7 +44,7 @@ class TypeHintedAPI:
 ```
 
 ### 2. Type Inspection System
-- **Location**: `pyramid_type_hinted_api/inspection.py`
+- **Location**: `pyramid_capstone/inspection.py`
 - **Purpose**: Extract type hints from function signatures
 - **Features**:
   - Parse function parameters and their types
@@ -65,7 +65,7 @@ class FunctionSignature:
 ```
 
 ### 3. Context System (Pytest-style Injection)
-- **Location**: `pyramid_type_hinted_api/context.py`
+- **Location**: `pyramid_capstone/context.py`
 - **Purpose**: Build parameter context from HTTP request
 - **Conflict Detection**: Validate no parameter name conflicts at setup time
 
@@ -85,7 +85,7 @@ class ParameterContext:
 ```
 
 ### 4. Schema Generation
-- **Location**: `pyramid_type_hinted_api/schema_generator.py`
+- **Location**: `pyramid_capstone/schema_generator.py`
 - **Purpose**: Generate Marshmallow schemas from type hints
 - **Support**: Basic types (int, str, bool, float), Lists, custom classes
 
@@ -100,7 +100,7 @@ def generate_output_schema(return_type: Type) -> Type[Schema]:
 ```
 
 ### 5. Cornice Service Integration
-- **Location**: `pyramid_type_hinted_api/service_builder.py`
+- **Location**: `pyramid_capstone/service_builder.py`
 - **Purpose**: Create Cornice services dynamically
 - **Features**: Automatic validation, error handling, response serialization
 
@@ -116,7 +116,7 @@ def create_cornice_service(
 ```
 
 ### 6. Request Handler
-- **Location**: `pyramid_type_hinted_api/handler.py`
+- **Location**: `pyramid_capstone/handler.py`
 - **Purpose**: Bridge between Cornice and original function
 - **Process**:
   1. Extract validated data from request
@@ -141,8 +141,8 @@ def create_view_handler(
 - [x] Setup Python environment with pyenv and pyenv-virtualenv
   ```bash
   # Create Python environment
-  pyenv virtualenv 3.12.8 pyramid-type-hinted-api
-  pyenv local pyramid-type-hinted-api
+  pyenv virtualenv 3.12.8 pyramid-capstone
+  pyenv local pyramid-capstone
   ```
 - [x] Configure Poetry for dependency management
   ```bash
@@ -154,7 +154,7 @@ def create_view_handler(
   # Create .envrc file for direnv
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
-  pyenv activate pyramid-type-hinted-api
+  pyenv activate pyramid-capstone
   direnv allow
   ```
 - [x] Install project dependencies
@@ -167,7 +167,7 @@ def create_view_handler(
   # Run tests to verify setup
   pytest tests/
   # Run linting
-  mypy pyramid_type_hinted_api/
+  mypy pyramid_capstone/
   ```
 
 ### Phase 1: Core Infrastructure ✅
@@ -215,7 +215,7 @@ def create_view_handler(
 
 ## File Structure
 ```
-pyramid_type_hinted_api/
+pyramid_capstone/
 ├── __init__.py              # Main exports (th_api instance)
 ├── decorators.py            # TypeHintedAPI class and HTTP method decorators
 ├── inspection.py            # Function signature inspection utilities

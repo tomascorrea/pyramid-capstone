@@ -2,7 +2,7 @@
 Data models for the Blog API example.
 
 These models demonstrate various type hint patterns that work well with
-pyramid-type-hinted-api's automatic schema generation.
+pyramid-capstone's automatic schema generation.
 """
 
 from dataclasses import dataclass, field

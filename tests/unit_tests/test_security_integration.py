@@ -1,12 +1,12 @@
 """
-Tests for security integration in pyramid-type-hinted-api.
+Tests for security integration in pyramid-capstone.
 
 This module tests that the th_api decorators properly integrate with
 Pyramid's authentication and authorization system.
 """
 
 import pytest
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 def test_decorator_accepts_permission_parameter():
@@ -88,7 +88,7 @@ def test_all_http_methods_support_permission():
 def test_permission_parameter_type_hints():
     """Test that permission parameter accepts correct types."""
     from typing import get_type_hints
-    from pyramid_type_hinted_api.decorators import TypeHintedAPI
+    from pyramid_capstone.decorators import TypeHintedAPI
     
     api = TypeHintedAPI()
     

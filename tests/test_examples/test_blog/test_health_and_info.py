@@ -33,7 +33,7 @@ def test_root_endpoint(test_blog_app):
     
     # Check basic information
     assert data['message'] == 'Welcome to the Blog API Example'
-    assert 'pyramid-type-hinted-api' in data['description']
+    assert 'pyramid-capstone' in data['description']
     assert data['version'] == '1.0.0'
     
     # Check documentation links

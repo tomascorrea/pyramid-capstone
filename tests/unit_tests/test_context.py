@@ -7,17 +7,17 @@ from HTTP requests.
 
 import pytest
 from typing import Optional
-from pyramid_type_hinted_api.context import (
+from pyramid_capstone.context import (
     ParameterContext,
     extract_path_parameters_from_pattern,
     validate_path_pattern
 )
-from pyramid_type_hinted_api.inspection import (
+from pyramid_capstone.inspection import (
     inspect_function_signature,
     ParameterInfo,
     FunctionSignature
 )
-from pyramid_type_hinted_api.exceptions import (
+from pyramid_capstone.exceptions import (
     ParameterConflictError,
     ParameterMissingError
 )

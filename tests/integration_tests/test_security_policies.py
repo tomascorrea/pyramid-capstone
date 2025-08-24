@@ -1,12 +1,12 @@
 """
-Integration tests for security policies with pyramid-type-hinted-api.
+Integration tests for security policies with pyramid-capstone.
 
 This module tests that the th_api decorators properly integrate with
 Pyramid's authentication and authorization policies in real scenarios.
 """
 
 import pytest
-from pyramid_type_hinted_api import th_api
+from pyramid_capstone import th_api
 
 
 # Test views with different permission requirements

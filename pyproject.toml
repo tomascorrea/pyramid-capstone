@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "pyramid_type_hinted_api"
+name = "pyramid_capstone"
 version = "0.0.1"
-description = "Just a way to define the api based at type hints."
+description = "FastAPI-like decorators for Pyramid - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation."
 authors = ["Robbin dev team <fdev@robbin.com.br>"]
-repository = "https://github.com/tomas_correa/pyramid-type-hinted-api"
-documentation = "https://tomas_correa.github.io/pyramid-type-hinted-api/"
+repository = "https://github.com/tomas_correa/pyramid-capstone"
+documentation = "https://tomas_correa.github.io/pyramid-capstone/"
 readme = "README.md"
 packages = [
-  {include = "pyramid_type_hinted_api"}
+  {include = "pyramid_capstone"}
 ]
 
 [tool.poetry.dependencies]
@@ -44,7 +44,7 @@ target-version = ['py37']
 preview = true
 
 [tool.mypy]
-files = ["pyramid_type_hinted_api"]
+files = ["pyramid_capstone"]
 disallow_untyped_defs = "True"
 disallow_any_unimported = "True"
 no_implicit_optional = "True"
@@ -104,6 +104,6 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = ["pyramid_type_hinted_api"]
+source = ["pyramid_capstone"]
 
 
