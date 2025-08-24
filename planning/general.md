@@ -85,14 +85,42 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 
 ---
 
-## Next Up (Backlog)
+---
 
-### Task Group 2: Documentation
-- [ ] API reference documentation
-- [ ] Tutorial and getting started guide
-- [ ] Best practices guide
-- [ ] Migration guide from pure Cornice
-- [ ] Security integration examples and best practices
+## Phase 8: Documentation Enhancement
+
+### Current Focus: Documentation Improvement
+
+#### Task Group 1: Core Documentation
+**Status**: COMPLETED (Updated to use Poetry, removed prescriptive best-practices.md)
+**Priority**: High
+**Description**: Improve README.md and MkDocs documentation to properly showcase the library
+
+**Subtasks**:
+- [x] Update README.md to focus on the library (minimal code, clear value proposition)
+- [x] Enhance MkDocs with comprehensive documentation
+  - [x] Getting started guide
+  - [x] API reference (using existing modules.md)
+  - [x] Tutorial with examples
+  - [x] Best practices
+  - [x] Security integration guide
+  - [x] Examples page with real-world patterns
+- [x] Add Python syntax highlighting and code examples to MkDocs
+- [x] Ensure documentation is beginner-friendly but comprehensive
+
+**Acceptance Criteria**:
+- [x] README.md clearly explains what the library does and why to use it
+- [x] README.md has minimal code examples (link to docs for more)
+- [x] MkDocs provides comprehensive documentation with proper navigation
+- [x] Documentation includes practical examples and best practices
+- [x] All code examples work and are tested
+
+**Estimated Effort**: 2-3 hours
+**Dependencies**: Understanding of library features and target audience
+
+---
+
+## Next Up (Backlog)
 
 ### Task Group 3: Performance & Polish
 - [ ] Performance benchmarks

@@ -1,34 +1,54 @@
 site_name: pyramid-type-hinted-api
 repo_url: https://github.com/tomas_correa/pyramid-type-hinted-api
 site_url: https://tomas_correa.github.io/pyramid-type-hinted-api
-site_description: Just a way to define the api based at type hints.
-site_author: Robbin dev team
+site_description: FastAPI-like decorators for Pyramid - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
+site_author: Tomas Correa
 edit_uri: edit/main/docs/
 repo_name: tomas_correa/pyramid-type-hinted-api
-copyright: Maintained by <a href="https://tomas_correa.com">Florian</a>.
+copyright: Maintained by <a href="https://github.com/tomas_correa">Tomas Correa</a>.
 
 nav:
   - Home: index.md
-  - Modules: modules.md
+  - Getting Started: getting-started.md
+  - Tutorial: tutorial.md
+  - Security: security.md
+  - API Reference: modules.md
+  - Examples: examples.md
+
 plugins:
   - search
-  - mkdocstrings
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_toc_entry: true
+            merge_init_into_class: true
 
 theme:
-  name: readthedocs
-  feature:
-    tabs: true
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: white
+      primary: blue
       accent: deep orange
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: black
+      primary: blue
       accent: deep orange
       toggle:
         icon: material/brightness-4
@@ -46,5 +66,18 @@ extra:
 markdown_extensions:
   - toc:
       permalink: true
-  - pymdownx.arithmatex:
-      generic: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
