@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyramid_capstone"
-version = "0.0.1"
+version = "0.1.0"
 description = "FastAPI-like decorators for Pyramid - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation."
 authors = ["Robbin dev team <fdev@robbin.com.br>"]
 repository = "https://github.com/tomas_correa/pyramid-capstone"
