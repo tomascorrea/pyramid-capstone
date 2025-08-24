@@ -10,8 +10,65 @@ from typing import Dict, Any, List, Callable, Optional
 from pyramid.config import Configurator
 from pyramid.testing import setUp, tearDown
 from pyramid.router import Router
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.security import Allow, Everyone, Authenticated
 from webtest import TestApp
 from pyramid_type_hinted_api import th_api
+
+
+class StaticAuthenticationPolicy:
+    """Simple static authentication policy for testing."""
+    
+    def authenticated_userid(self, request):
+        # Check for simple Authorization header: "Bearer userid"
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            return auth_header[7:]  # Remove "Bearer " prefix
+        return None
+    
+    def effective_principals(self, request):
+        userid = self.authenticated_userid(request)
+        if not userid:
+            return ['system.Everyone']
+        
+        principals = ['system.Everyone', 'system.Authenticated', userid]
+        
+        # Add groups based on userid
+        user_groups = {
+            'user1': [],
+            'editor1': ['editors'],
+            'admin1': ['admins'],
+        }
+        
+        if userid in user_groups:
+            for group in user_groups[userid]:
+                principals.append(f'group:{group}')
+        
+        return principals
+    
+    def remember(self, request, userid, **kw):
+        return []
+    
+    def forget(self, request):
+        return []
+
+
+class RootFactory:
+    """Root factory with ACL for testing security."""
+    
+    __acl__ = [
+        (Allow, Everyone, 'public'),
+        (Allow, Authenticated, 'view'),
+        (Allow, 'group:editors', 'edit'),
+        (Allow, 'group:admins', 'edit'),  # Admins can also edit
+        (Allow, 'group:admins', 'admin'),
+    ]
+    
+    def __init__(self, request):
+        pass
+
+
+
 
 
 @pytest.fixture
@@ -25,7 +82,7 @@ def pyramid_config():
     Returns:
         Function that creates Pyramid configurator with optional settings
     """
-    def _create_config(settings: Optional[Dict[str, Any]] = None):
+    def _create_config(settings: Optional[Dict[str, Any]] = None, enable_security: bool = False):
         # Default test settings
         default_settings = {
             'pyramid.debug_authorization': False,
@@ -39,6 +96,17 @@ def pyramid_config():
         
         config = Configurator(settings=default_settings)
         config.include('cornice')
+        
+        # Configure security if requested
+        if enable_security:
+            # Set up security policies
+            authn_policy = StaticAuthenticationPolicy()
+            authz_policy = ACLAuthorizationPolicy()
+            
+            config.set_authentication_policy(authn_policy)
+            config.set_authorization_policy(authz_policy)
+            config.set_root_factory(RootFactory)
+        
         return config
     
     return _create_config
@@ -57,9 +125,12 @@ def pyramid_app(pyramid_config):
     Returns:
         Function that creates Pyramid WSGI application with optional settings
     """
-    def _create_app(settings: Optional[Dict[str, Any]] = None, scan_packages: Optional[List[str]] = None):
+    def _create_app(settings: Optional[Dict[str, Any]] = None, scan_packages: Optional[List[str]] = None, enable_security: bool = False):
         # Create configurator with settings
-        config = pyramid_config(settings)
+        config = pyramid_config(settings, enable_security=enable_security)
+        
+        # Include pyramid_type_hinted_api
+        config.include('pyramid_type_hinted_api')
         
         # Scan packages for decorated views
         scan_packages = scan_packages or ['pyramid_type_hinted_api']
@@ -88,7 +159,8 @@ def app_factory(pyramid_app):
     """
     def _create_app(
         settings: Optional[Dict[str, Any]] = None,
-        scan_packages: Optional[List[str]] = None
+        scan_packages: Optional[List[str]] = None,
+        enable_security: bool = False
     ) -> TestApp:
         """
         Create a Pyramid app with custom settings and scanning options.
@@ -96,12 +168,13 @@ def app_factory(pyramid_app):
         Args:
             settings: Dictionary of Pyramid settings to use
             scan_packages: List of packages to scan for views
+            enable_security: Whether to enable security policies
             
         Returns:
             WebTest TestApp instance
         """
         # Create WSGI app using pyramid_app factory
-        wsgi_app = pyramid_app(settings=settings, scan_packages=scan_packages)
+        wsgi_app = pyramid_app(settings=settings, scan_packages=scan_packages, enable_security=enable_security)
         return TestApp(wsgi_app)
     
     return _create_app
@@ -126,6 +199,7 @@ def app_request(app_factory):
         method: str = 'GET',
         settings: Optional[Dict[str, Any]] = None,
         scan_packages: Optional[List[str]] = None,
+        enable_security: bool = False,
         json: Optional[Dict[str, Any]] = None,
         params: Optional[Dict[str, Any]] = None,
         headers: Optional[Dict[str, str]] = None,
@@ -148,7 +222,7 @@ def app_request(app_factory):
             Real Pyramid request object
         """
         # Create test app
-        test_app = app_factory(settings=settings, scan_packages=scan_packages)
+        test_app = app_factory(settings=settings, scan_packages=scan_packages, enable_security=enable_security)
         
         # Prepare request arguments
         webtest_kwargs = {}

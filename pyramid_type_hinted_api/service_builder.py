@@ -138,7 +138,7 @@ def _create_service_for_path(config: Configurator, path: str) -> None:
             )
             
             # Add this method to the service
-            service.add_view(method.upper(), view_handler)
+            service.add_view(method.upper(), view_handler, permission=kwargs.get('permission'))
         
         # Register the service with Pyramid
         config.add_cornice_service(service)

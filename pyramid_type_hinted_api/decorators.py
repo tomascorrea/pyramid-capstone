@@ -22,33 +22,33 @@ class TypeHintedAPI:
     def __init__(self) -> None:
         self.venusian = venusian
     
-    def get(self, path: str, **kwargs: Any) -> Callable:
+    def get(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for GET requests."""
-        return self._create_decorator('GET', path, **kwargs)
+        return self._create_decorator('GET', path, permission=permission, **kwargs)
     
-    def post(self, path: str, **kwargs: Any) -> Callable:
+    def post(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for POST requests."""
-        return self._create_decorator('POST', path, **kwargs)
+        return self._create_decorator('POST', path, permission=permission, **kwargs)
     
-    def put(self, path: str, **kwargs: Any) -> Callable:
+    def put(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for PUT requests."""
-        return self._create_decorator('PUT', path, **kwargs)
+        return self._create_decorator('PUT', path, permission=permission, **kwargs)
     
-    def patch(self, path: str, **kwargs: Any) -> Callable:
+    def patch(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for PATCH requests."""
-        return self._create_decorator('PATCH', path, **kwargs)
+        return self._create_decorator('PATCH', path, permission=permission, **kwargs)
     
-    def delete(self, path: str, **kwargs: Any) -> Callable:
+    def delete(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for DELETE requests."""
-        return self._create_decorator('DELETE', path, **kwargs)
+        return self._create_decorator('DELETE', path, permission=permission, **kwargs)
     
-    def options(self, path: str, **kwargs: Any) -> Callable:
+    def options(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for OPTIONS requests."""
-        return self._create_decorator('OPTIONS', path, **kwargs)
+        return self._create_decorator('OPTIONS', path, permission=permission, **kwargs)
     
-    def head(self, path: str, **kwargs: Any) -> Callable:
+    def head(self, path: str, permission: Optional[str] = None, **kwargs: Any) -> Callable:
         """Decorator for HEAD requests."""
-        return self._create_decorator('HEAD', path, **kwargs)
+        return self._create_decorator('HEAD', path, permission=permission, **kwargs)
     
     def _create_decorator(self, method: str, path: str, **kwargs: Any) -> Callable:
         """

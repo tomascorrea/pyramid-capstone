@@ -55,6 +55,36 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 
 ---
 
+## Phase 7: Security Integration
+
+### Current Focus: Pyramid Security Integration
+
+#### Task Group 1: Security Support in th_api Decorators
+**Status**: COMPLETED
+**Priority**: High
+**Description**: Integrate Pyramid's authentication/authorization system into th_api decorators
+
+**Subtasks**:
+- [x] Add optional `permission` parameter to all HTTP method decorators
+  - [x] Support string permission (e.g., `'view'`)
+- [x] Modify service builder to pass permission to Cornice services
+- [x] Update view handler creation to integrate with Pyramid's security
+- [x] Add unit tests for security integration
+- [x] Add integration tests with configured security policies
+- [ ] Update documentation with security examples
+
+**Acceptance Criteria**:
+- [x] Users can write `@th_api.get('/users', permission='view')`
+- [x] Permission parameter is optional (backward compatibility)
+- [x] Pyramid handles all security checks and exceptions
+- [x] Works with any Pyramid authentication/authorization policy
+- [x] Comprehensive test coverage
+
+**Estimated Effort**: 1-2 hours
+**Dependencies**: Understanding of Pyramid's security system
+
+---
+
 ## Next Up (Backlog)
 
 ### Task Group 2: Documentation
@@ -62,6 +92,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 - [ ] Tutorial and getting started guide
 - [ ] Best practices guide
 - [ ] Migration guide from pure Cornice
+- [ ] Security integration examples and best practices
 
 ### Task Group 3: Performance & Polish
 - [ ] Performance benchmarks

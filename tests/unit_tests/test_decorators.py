@@ -41,7 +41,7 @@ def test_decorator_adds_metadata():
     
     assert test_view.__th_api_method__ == 'GET'
     assert test_view.__th_api_path__ == '/test'
-    assert test_view.__th_api_kwargs__ == {}
+    assert test_view.__th_api_kwargs__ == {'permission': None}
 
 
 def test_decorator_with_kwargs():
@@ -52,7 +52,7 @@ def test_decorator_with_kwargs():
     
     assert create_user.__th_api_method__ == 'POST'
     assert create_user.__th_api_path__ == '/users'
-    assert create_user.__th_api_kwargs__ == {'description': 'Create a user'}
+    assert create_user.__th_api_kwargs__ == {'description': 'Create a user', 'permission': None}
 
 
 def test_venusian_attachment():
