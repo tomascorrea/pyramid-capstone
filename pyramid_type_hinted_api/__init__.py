@@ -23,6 +23,21 @@ from .exceptions import (
 
 __version__ = "0.0.1"
 
+
+def includeme(config):
+    """
+    Pyramid includeme function for pyramid-type-hinted-api.
+    
+    This function is called when the library is included via config.include().
+    It sets up any necessary configuration for the library.
+    """
+    # Ensure Cornice is included
+    config.include('cornice')
+    
+    # Add any additional configuration here if needed
+    # For now, the library works through venusian scanning, so no additional setup is required
+
+
 __all__ = [
     "th_api",
     "TypeHintedAPIError",
@@ -30,4 +45,5 @@ __all__ = [
     "ParameterMissingError",
     "SchemaGenerationError",
     "ServiceRegistrationError",
+    "includeme",
 ]
