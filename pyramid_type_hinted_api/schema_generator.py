@@ -6,6 +6,8 @@ request validation and response serialization.
 """
 
 from typing import Type, Dict, Any, Optional, List, get_origin, get_args
+from datetime import datetime, date
+from enum import Enum
 from marshmallow import Schema, fields, post_load, post_dump
 from .inspection import FunctionSignature, ParameterInfo, is_list_type, get_list_item_type, is_basic_type
 from .exceptions import SchemaGenerationError
@@ -18,6 +20,8 @@ TYPE_TO_FIELD_MAPPING = {
     str: fields.String,
     bool: fields.Boolean,
     bytes: fields.Raw,
+    datetime: fields.DateTime,
+    date: fields.Date,
 }
 
 
@@ -157,6 +161,17 @@ def _create_field_from_type(type_hint: Type, field_name: str) -> fields.Field:
         field_class = TYPE_TO_FIELD_MAPPING[type_hint]
         return field_class()
     
+    # Handle Enum types
+    if isinstance(type_hint, type) and issubclass(type_hint, Enum):
+        # Create a custom field that serializes enum values properly
+        class EnumField(fields.String):
+            def _serialize(self, value, attr, obj, **kwargs):
+                if isinstance(value, Enum):
+                    return value.value
+                return value
+        
+        return EnumField()
+    
     # Handle complex types (classes with annotations)
     if hasattr(type_hint, '__annotations__'):
         nested_schema = _create_schema_from_type(type_hint, f"{field_name.title()}Schema")
@@ -196,6 +211,23 @@ def _create_schema_from_type(type_hint: Type, schema_name: str) -> Type[Schema]:
             raise SchemaGenerationError(
                 f"Failed to create field '{field_name}' of type {field_type}: {e}"
             ) from e
+    
+    # Add a custom dump method that handles both expected objects and arbitrary dictionaries
+    def custom_dump(self, obj, **kwargs):
+        # If obj is a dict and doesn't match our expected fields, return it as-is
+        if isinstance(obj, dict):
+            schema_field_names = set(self.fields.keys())
+            obj_keys = set(obj.keys())
+            
+            # If the object has keys that don't match our schema fields,
+            # it's probably an error response or other arbitrary dict
+            if not obj_keys.issubset(schema_field_names):
+                return obj
+        
+        # Otherwise, use normal Marshmallow serialization
+        return super(schema_class, self).dump(obj, **kwargs)
+    
+    schema_fields['dump'] = custom_dump
     
     # Create the schema class
     schema_class = type(schema_name, (Schema,), schema_fields)

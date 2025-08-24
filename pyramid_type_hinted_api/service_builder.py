@@ -5,7 +5,7 @@ This module creates Cornice services dynamically from decorated functions,
 handling validation, serialization, and integration with Pyramid.
 """
 
-from typing import Callable, Any, Optional, Type
+from typing import Callable, Any, Optional, Type, Dict, List, Tuple
 from pyramid.config import Configurator
 from cornice import Service
 from marshmallow import Schema
@@ -14,6 +14,10 @@ from .context import ParameterContext, validate_path_pattern
 from .schema_generator import generate_input_schema, generate_output_schema
 from .handler import create_view_handler
 from .exceptions import ServiceRegistrationError
+
+# Registry keys for storing pending views and registered actions
+PENDING_VIEWS_KEY = 'th_api.pending_views'
+REGISTERED_ACTIONS_KEY = 'th_api.registered_actions'
 
 
 def register_type_hinted_view(
@@ -26,8 +30,8 @@ def register_type_hinted_view(
     """
     Register a type-hinted view function as a Cornice service.
     
-    This is the main integration point called by venusian when scanning
-    decorated functions.
+    This collects views by path and defers service creation until all views
+    for a path are collected, allowing multiple HTTP methods per service.
     
     Args:
         config: Pyramid configurator
@@ -40,39 +44,35 @@ def register_type_hinted_view(
         # Validate path pattern
         validate_path_pattern(path)
         
-        # Inspect function signature
-        signature = inspect_function_signature(func)
+        # Filter out 'method' from kwargs to avoid conflicts
+        filtered_kwargs = {k: v for k, v in kwargs.items() if k != 'method'}
         
-        # Create parameter context and validate
-        context = ParameterContext(path)
-        context.validate_no_conflicts(signature)
+        # Get or create pending views registry
+        registry = config.registry
+        if not hasattr(registry, PENDING_VIEWS_KEY):
+            setattr(registry, PENDING_VIEWS_KEY, {})
+        if not hasattr(registry, REGISTERED_ACTIONS_KEY):
+            setattr(registry, REGISTERED_ACTIONS_KEY, set())
         
-        # Generate schemas
-        input_schema = generate_input_schema(signature, f"{func.__name__}InputSchema")
-        output_schema = generate_output_schema(signature.return_type, f"{func.__name__}OutputSchema")
+        pending_views = getattr(registry, PENDING_VIEWS_KEY)
+        registered_actions = getattr(registry, REGISTERED_ACTIONS_KEY)
         
-        # Create Cornice service
-        service = create_cornice_service(
-            name=f"{func.__name__}_{method.lower()}",
-            path=path,
-            method=method,
-            **kwargs
-        )
+        # Add this view to the pending registry
+        if path not in pending_views:
+            pending_views[path] = []
         
-        # Create view handler
-        view_handler = create_view_handler(
-            original_func=func,
-            signature=signature,
-            context=context,
-            input_schema=input_schema,
-            output_schema=output_schema
-        )
+        pending_views[path].append((method, func, filtered_kwargs))
         
-        # Register the service with the handler
-        service.add_view(method, view_handler)
-        
-        # Add the service to Pyramid configuration
-        config.add_cornice_service(service)
+        # Register a callback to create services after all scanning is complete
+        # Only register the action once per path
+        if path not in registered_actions:
+            registered_actions.add(path)
+            config.action(
+                discriminator=('th_api_service_creation', path),
+                callable=_create_service_for_path,
+                args=(config, path),
+                order=-20  # Execute before Cornice's internal actions
+            )
         
     except Exception as e:
         raise ServiceRegistrationError(
@@ -80,10 +80,81 @@ def register_type_hinted_view(
         ) from e
 
 
+def _create_service_for_path(config: Configurator, path: str) -> None:
+    """
+    Create a single Cornice service for all methods registered to a path.
+    
+    Args:
+        config: Pyramid configurator
+        path: URL path pattern
+    """
+    registry = config.registry
+    
+    # Get pending views from registry
+    if not hasattr(registry, PENDING_VIEWS_KEY):
+        return
+    
+    pending_views = getattr(registry, PENDING_VIEWS_KEY)
+    if path not in pending_views:
+        return
+    
+    views = pending_views[path]
+    if not views:
+        return
+    
+    try:
+        # Use the first view's kwargs as base configuration
+        # (assuming all views for the same path have compatible config)
+        base_kwargs = views[0][2] if views else {}
+        
+        # Create a single service for this path
+        service_name = f"service_{path.replace('/', '_').replace('{', '').replace('}', '').strip('_')}"
+        service = create_cornice_service(
+            name=service_name,
+            path=path,
+            **base_kwargs
+        )
+        
+        # Add all methods to this service
+        for method, func, kwargs in views:
+            # Inspect function signature
+            signature = inspect_function_signature(func)
+            
+            # Create parameter context and validate
+            context = ParameterContext(path)
+            context.validate_no_conflicts(signature)
+            
+            # Generate schemas
+            input_schema = generate_input_schema(signature, f"{func.__name__}InputSchema")
+            output_schema = generate_output_schema(signature.return_type, f"{func.__name__}OutputSchema")
+            
+            # Create view handler
+            view_handler = create_view_handler(
+                original_func=func,
+                signature=signature,
+                context=context,
+                input_schema=input_schema,
+                output_schema=output_schema
+            )
+            
+            # Add this method to the service
+            service.add_view(method.upper(), view_handler)
+        
+        # Register the service with Pyramid
+        config.add_cornice_service(service)
+        
+        # Clean up the pending views for this path
+        del pending_views[path]
+        
+    except Exception as e:
+        raise ServiceRegistrationError(
+            f"Failed to create service for path {path}: {e}"
+        ) from e
+
+
 def create_cornice_service(
     name: str,
     path: str,
-    method: str,
     **kwargs: Any
 ) -> Service:
     """
@@ -92,7 +163,6 @@ def create_cornice_service(
     Args:
         name: Service name
         path: URL path pattern
-        method: HTTP method
         **kwargs: Additional service configuration
         
     Returns:
@@ -106,7 +176,7 @@ def create_cornice_service(
     service = Service(
         name=name,
         path=pyramid_path,
-        description=kwargs.get('description', f'{method} {path}'),
+        description=kwargs.get('description', f'Service for {path}'),
         **{k: v for k, v in kwargs.items() if k != 'description'}
     )
     

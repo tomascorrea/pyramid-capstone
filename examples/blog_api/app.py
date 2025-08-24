@@ -9,8 +9,16 @@ from pyramid.config import Configurator
 from pyramid.response import Response
 
 
-def create_app(global_config, **settings):
+def create_app(global_config, data_store_factory=None, **settings):
     """Create and configure the Pyramid application."""
+    # Set up data store factory if provided
+    if data_store_factory:
+        import examples.blog_api.data_store
+        import examples.blog_api.views
+        # Replace the global data store with the factory-created one
+        examples.blog_api.data_store.blog_store = data_store_factory()
+        examples.blog_api.views.blog_store = examples.blog_api.data_store.blog_store
+    
     # Create Pyramid configurator
     config = Configurator(settings=settings)
     

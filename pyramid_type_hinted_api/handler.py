@@ -44,6 +44,7 @@ def create_view_handler(
         Returns:
             Response data (will be serialized by Cornice/Pyramid)
         """
+
         try:
             # Build function arguments from request
             function_args = context.build_function_arguments(request, signature)
@@ -88,11 +89,13 @@ def handle_response(
     Returns:
         Processed response data
     """
+
     # If no result, return empty response
     if result is None:
         request.response.status_code = 204  # No Content
         return None
     
+    # Always use schema serialization for consistency
     # If output schema is provided, serialize the result
     if output_schema:
         try:
@@ -111,9 +114,8 @@ def handle_response(
                 serialized_result = schema_instance.dump(result)
                 return serialized_result
         except Exception as e:
-            # If serialization fails, log error and return raw result
-            # In production, you might want to log this properly
-            print(f"Warning: Failed to serialize response: {e}")
+            # If serialization fails, return the raw result (e.g., error dictionaries)
+            # This handles cases where we return error responses that don't match the expected schema
             return result
     
     # Return result as-is for basic types or when no schema

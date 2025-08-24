@@ -152,7 +152,8 @@ def get_list_item_type(type_hint: Type) -> Optional[Type]:
 
 def is_basic_type(type_hint: Type) -> bool:
     """Check if a type hint is a basic Python type that we can handle directly."""
-    basic_types = {int, float, str, bool, bytes, dict, list}
+    from datetime import datetime, date
+    basic_types = {int, float, str, bool, bytes, dict, list, datetime, date}
     return type_hint in basic_types
 
 
