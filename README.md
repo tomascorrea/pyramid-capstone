@@ -23,11 +23,12 @@
 - **🔗 Pyramid Integration**: Works seamlessly with existing Pyramid applications
 - **📚 Auto Documentation**: Automatic OpenAPI/Swagger documentation
 - **🛡️ Security Ready**: Built-in support for Pyramid's security system
-- **🧪 Battle Tested**: Comprehensive test suite with 95%+ coverage
+- **🧪 Well Tested**: Comprehensive test suite with high coverage
 
 ### 🚀 Quick Example
 
 ```python
+from pyramid.config import Configurator
 from pyramid_type_hinted_api import th_api
 
 @th_api.get('/users/{user_id}')
@@ -38,6 +39,13 @@ def get_user(request, user_id: int) -> dict:
 def create_user(request, name: str, email: str) -> dict:
     # Parameters automatically extracted and validated from JSON body
     return {"message": "User created", "name": name, "email": email}
+
+# Pyramid app setup
+def main(global_config, **settings):
+    config = Configurator(settings=settings)
+    config.include('pyramid_type_hinted_api')
+    config.scan()
+    return config.make_wsgi_app()
 ```
 
 That's it! No manual schema definitions, no boilerplate validation code.

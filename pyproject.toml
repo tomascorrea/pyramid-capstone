@@ -27,6 +27,7 @@ tox = "^3.25.1"
 webtest = "^3.0.0"
 waitress = "^3.0.0"
 pycornmarsh = "*"
+mkdocs-material = "^9.6.18"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
