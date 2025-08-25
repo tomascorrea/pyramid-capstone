@@ -160,11 +160,11 @@ def validate_type_compatibility(type_hint: Type, param_name: str) -> None:
     """
     # Import Any here to avoid circular imports
     from typing import Any
-    
+
     # Allow Any type (we're permissive with unknown types)
     if type_hint is Any:
         return
-    
+
     # Handle Optional types
     if get_origin(type_hint) is not None:
         args = get_args(type_hint)
