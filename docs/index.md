@@ -9,16 +9,16 @@
 
 ## ✨ What is pyramid-capstone?
 
-`pyramid-capstone` brings the developer experience of FastAPI to the Pyramid web framework. It allows you to write clean, type-safe API endpoints with automatic request validation, response serialization, and OpenAPI documentation generation.
+`pyramid-capstone` enhances Pyramid's already excellent foundation with modern developer conveniences. Built on Pyramid's proven architecture of robustness, flexibility, and enterprise-grade security, it adds automatic validation, serialization, and documentation generation while preserving Pyramid's minimalist philosophy.
 
 ### 🎯 Key Features
 
-- **🔒 Type Safety**: Full type hint support with automatic validation
-- **⚡ Zero Boilerplate**: Minimal code, maximum functionality  
-- **🔗 Pyramid Integration**: Works seamlessly with existing Pyramid applications
-- **📚 Auto Documentation**: Automatic OpenAPI/Swagger documentation
-- **🛡️ Security Ready**: Built-in support for Pyramid's security system
-- **🧪 Well Tested**: Comprehensive test suite with high coverage
+- **⚡ Developer Experience**: Modern decorators with automatic validation and serialization
+- **🏗️ Pyramid Foundation**: Built on Pyramid's battle-tested, production-ready framework
+- **🔗 Seamless Integration**: Works perfectly with existing Pyramid applications and middleware
+- **📚 Auto Documentation**: Automatic OpenAPI/Swagger documentation generation
+- **🛡️ Enterprise Security**: Leverages Pyramid's comprehensive security and authentication system
+- **🧪 Production Ready**: Comprehensive test suite built on Pyramid's reliability
 
 ### 🚀 Quick Example
 
@@ -59,13 +59,19 @@ Ready to start building type-safe APIs? Check out our [Getting Started Guide](ge
 
 ## 🎯 Why Choose pyramid-capstone?
 
+pyramid-capstone combines Pyramid's enterprise-grade foundation with modern developer experience:
+
 | Feature | pyramid-capstone | Pure Pyramid | Pure Cornice |
 |---------|------------------------|---------------|--------------|
-| Type Safety | ✅ Built-in | ❌ Manual | ❌ Manual |
-| Auto Validation | ✅ Automatic | ❌ Manual | ⚠️ Schema required |
-| OpenAPI Docs | ✅ Generated | ❌ Manual | ⚠️ Limited |
-| Boilerplate | ✅ Minimal | ❌ Verbose | ⚠️ Medium |
-| Learning Curve | ✅ Gentle | ⚠️ Steep | ⚠️ Medium |
+| **Developer Experience** | ✅ Modern + Simple | ✅ Minimal | ⚠️ Schema-heavy |
+| **Auto Validation** | ✅ Type-hint based | ❌ Manual setup | ✅ Schema-based |
+| **OpenAPI Docs** | ✅ Auto-generated | ❌ Manual | ⚠️ Limited |
+| **Production Readiness** | ✅ Pyramid foundation | ✅ Battle-tested | ✅ Pyramid foundation |
+| **Security & Auth** | ✅ Full Pyramid power | ✅ Comprehensive | ✅ Full Pyramid power |
+| **Flexibility** | ✅ Pyramid's strength | ✅ Maximum | ✅ Pyramid's strength |
+| **Learning Curve** | ✅ Gentle enhancement | ⚠️ Framework mastery | ⚠️ Schema complexity |
+
+**The Best of Both Worlds**: Get Pyramid's proven robustness, security, and flexibility with the convenience of automatic validation and documentation.
 
 ## 🤝 Contributing
 
