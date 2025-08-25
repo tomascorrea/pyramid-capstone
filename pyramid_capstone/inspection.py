@@ -158,6 +158,13 @@ def validate_type_compatibility(type_hint: Type, param_name: str) -> None:
     Raises:
         ValueError: If type is not supported
     """
+    # Import Any here to avoid circular imports
+    from typing import Any
+    
+    # Allow Any type (we're permissive with unknown types)
+    if type_hint is Any:
+        return
+    
     # Handle Optional types
     if get_origin(type_hint) is not None:
         args = get_args(type_hint)
@@ -182,6 +189,6 @@ def validate_type_compatibility(type_hint: Type, param_name: str) -> None:
     # If we get here, it's not a supported type
     raise ValueError(
         f"Type {type_hint} for parameter '{param_name}' is not supported. "
-        "Supported types: int, float, str, bool, bytes, List[T], Optional[T], "
+        "Supported types: int, float, str, bool, bytes, List[T], Optional[T], Any, "
         "and classes with type annotations (dataclasses, etc.)"
     )
