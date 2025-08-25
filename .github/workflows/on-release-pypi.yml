@@ -7,7 +7,8 @@ on:
 
 permissions:
   id-token: write   # This is required for requesting the JWT
-  contents: read
+  contents: write   # This is required for GitHub Pages deployment
+  pages: write      # This is required for GitHub Pages deployment
 
 jobs:
 
@@ -34,8 +35,6 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
 
 
   deploy-docs:
@@ -47,6 +46,11 @@ jobs:
 
       - name: Set up the environment
         uses: ./.github/actions/setup-poetry-env
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Deploy documentation
         run: poetry run mkdocs gh-deploy --force
