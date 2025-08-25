@@ -1,9 +1,9 @@
 # pyramid-capstone
 
-[![Release](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)
-[![Build status](https://img.shields.io/github/actions/workflow/status/tomas_correa/pyramid-capstone/main.yml?branch=main)](https://github.com/tomas_correa/pyramid-capstone/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/tomas_correa/pyramid-capstone/branch/main/graph/badge.svg)](https://codecov.io/gh/tomas_correa/pyramid-capstone)
-[![License](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)
+[![Release](https://img.shields.io/github/v/release/tomascorrea/pyramid-capstone)](https://github.com/tomascorrea/pyramid-capstone/releases)
+[![Build status](https://img.shields.io/github/actions/workflow/status/tomascorrea/pyramid-capstone/on-release-main.yml?branch=main)](https://github.com/tomascorrea/pyramid-capstone/actions/workflows/on-release-main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/tomascorrea/pyramid-capstone/branch/main/graph/badge.svg)](https://codecov.io/gh/tomascorrea/pyramid-capstone)
+[![License](https://img.shields.io/github/license/tomascorrea/pyramid-capstone)](https://img.shields.io/github/license/tomascorrea/pyramid-capstone)
 
 **FastAPI-like decorators for Pyramid** - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
 
@@ -75,8 +75,8 @@ pyramid-capstone combines Pyramid's enterprise-grade foundation with modern deve
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](https://github.com/tomas_correa/pyramid-capstone/blob/main/CONTRIBUTING.rst) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/tomascorrea/pyramid-capstone/blob/main/CONTRIBUTING.rst) for details.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/tomas_correa/pyramid-capstone/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/tomascorrea/pyramid-capstone/blob/main/LICENSE) file for details.

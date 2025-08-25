@@ -1,10 +1,10 @@
 # pyramid-capstone
 
-[![Release](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)](https://img.shields.io/github/v/release/tomas_correa/pyramid-capstone)
-[![Build status](https://img.shields.io/github/actions/workflow/status/tomas_correa/pyramid-capstone/main.yml?branch=main)](https://github.com/tomas_correa/pyramid-capstone/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/tomas_correa/pyramid-capstone/branch/main/graph/badge.svg)](https://codecov.io/gh/tomas_correa/pyramid-capstone)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-capstone)](https://img.shields.io/github/commit-activity/m/tomas_correa/pyramid-capstone)
-[![License](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)](https://img.shields.io/github/license/tomas_correa/pyramid-capstone)
+[![Release](https://img.shields.io/github/v/release/tomascorrea/pyramid-capstone)](https://github.com/tomascorrea/pyramid-capstone/releases)
+[![Build status](https://img.shields.io/github/actions/workflow/status/tomascorrea/pyramid-capstone/on-release-main.yml?branch=main)](https://github.com/tomascorrea/pyramid-capstone/actions/workflows/on-release-main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/tomascorrea/pyramid-capstone/branch/main/graph/badge.svg)](https://codecov.io/gh/tomascorrea/pyramid-capstone)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/tomascorrea/pyramid-capstone)](https://img.shields.io/github/commit-activity/m/tomascorrea/pyramid-capstone)
+[![License](https://img.shields.io/github/license/tomascorrea/pyramid-capstone)](https://img.shields.io/github/license/tomascorrea/pyramid-capstone)
 
 **FastAPI-like decorators for Pyramid** - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
 
@@ -14,8 +14,8 @@
 > 
 > While we have comprehensive tests and the core functionality works, the API may change significantly between versions. Use at your own risk and expect breaking changes until we reach v1.0.0.
 
-- **📖 Documentation**: <https://tomas_correa.github.io/pyramid-capstone/>
-- **🔧 Source Code**: <https://github.com/tomas_correa/pyramid-capstone/>
+- **📖 Documentation**: <https://tomascorrea.github.io/pyramid-capstone/>
+- **🔧 Source Code**: <https://github.com/tomascorrea/pyramid-capstone/>
 - **🐍 PyPI**: <https://pypi.org/project/pyramid-capstone/
 
 ## ✨ What is pyramid-capstone?
@@ -99,10 +99,10 @@ pyramid-capstone combines Pyramid's enterprise-grade foundation with modern deve
 
 ## 📚 Learn More
 
-- **[📖 Full Documentation](https://tomas_correa.github.io/pyramid-capstone/)** - Complete guides and API reference
-- **[🚀 Getting Started](https://tomas_correa.github.io/pyramid-capstone/getting-started/)** - Step-by-step tutorial
+- **[📖 Full Documentation](https://tomascorrea.github.io/pyramid-capstone/)** - Complete guides and API reference
+- **[🚀 Getting Started](https://tomascorrea.github.io/pyramid-capstone/getting-started/)** - Step-by-step tutorial
 - **[💡 Examples](examples/blog_api/)** - Complete blog API example with advanced features
-- **[🔒 Security Guide](https://tomas_correa.github.io/pyramid-capstone/security/)** - Authentication and authorization
+- **[🔒 Security Guide](https://tomascorrea.github.io/pyramid-capstone/security/)** - Authentication and authorization
 
 ## 🤝 Contributing
 

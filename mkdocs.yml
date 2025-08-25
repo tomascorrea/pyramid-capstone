@@ -1,11 +1,11 @@
 site_name: pyramid-capstone
-repo_url: https://github.com/tomas_correa/pyramid-capstone
-site_url: https://tomas_correa.github.io/pyramid-capstone
+repo_url: https://github.com/tomascorrea/pyramid-capstone
+site_url: https://tomascorrea.github.io/pyramid-capstone
 site_description: FastAPI-like decorators for Pyramid - Build type-safe REST APIs with automatic validation, serialization, and OpenAPI documentation.
 site_author: Tomas Correa
 edit_uri: edit/main/docs/
-repo_name: tomas_correa/pyramid-capstone
-copyright: Maintained by <a href="https://github.com/tomas_correa">Tomas Correa</a>.
+repo_name: tomascorrea/pyramid-capstone
+copyright: Maintained by <a href="https://github.com/tomascorrea">Tomas Correa</a>.
 
 nav:
   - Home: index.md
@@ -59,7 +59,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/tomas_correa/pyramid-capstone
+      link: https://github.com/tomascorrea/pyramid-capstone
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/pyramid-capstone
 
