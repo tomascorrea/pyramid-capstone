@@ -19,7 +19,7 @@ def test_routes_registration(blog_app):
     route_names = [route.name for route in routes]
     route_patterns = {route.name: route.pattern for route in routes}
 
-    # Expected th_api service routes
+    # Expected api service routes
     expected_routes = [
         "service_users",
         "service_users_user_id",

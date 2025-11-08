@@ -10,12 +10,12 @@ from typing import Any, Callable, Optional
 import venusian
 
 
-class TypeHintedAPI:
+class CapstoneAPI:
     """
     Main decorator class that provides FastAPI-like HTTP method decorators.
 
     Usage:
-        @th_api.get('/users/{user_id}')
+        @api.get('/users/{user_id}')
         def get_user(request, user_id: int) -> UserResponse:
             return UserResponse(id=user_id, name="John")
     """
@@ -66,9 +66,9 @@ class TypeHintedAPI:
 
         def decorator(func: Callable) -> Callable:
             # Store metadata on the function for later processing
-            func.__th_api_method__ = method
-            func.__th_api_path__ = path
-            func.__th_api_kwargs__ = kwargs
+            func.__api_method__ = method
+            func.__api_path__ = path
+            func.__api_kwargs__ = kwargs
 
             # Use venusian to register this function for later configuration
             def callback(scanner: Any, name: str, obj: Callable) -> None:
@@ -86,4 +86,4 @@ class TypeHintedAPI:
 
 
 # Create the main instance that users will import
-th_api = TypeHintedAPI()
+api = CapstoneAPI()

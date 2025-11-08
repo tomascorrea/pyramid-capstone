@@ -6,7 +6,7 @@ Tests path parameters, query parameters, and JSON body parameters.
 from dataclasses import dataclass
 from typing import Optional
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 @dataclass
@@ -29,7 +29,7 @@ class UserResponse:
     created: bool = False
 
 
-@th_api.get("/search")
+@api.get("/search")
 def search_items(request, query: str, limit: int = 10, offset: int = 0) -> dict:
     """Search with query parameters."""
     return {
@@ -40,7 +40,7 @@ def search_items(request, query: str, limit: int = 10, offset: int = 0) -> dict:
     }
 
 
-@th_api.get("/item/{item_id}/details")
+@api.get("/item/{item_id}/details")
 def get_item_details(request, item_id: int, include_metadata: bool = False) -> dict:
     """Get item details with path and query parameters."""
     result = {"item_id": item_id, "name": f"Item {item_id}", "status": "active"}
@@ -51,13 +51,13 @@ def get_item_details(request, item_id: int, include_metadata: bool = False) -> d
     return result
 
 
-@th_api.post("/users/create")
+@api.post("/users/create")
 def create_user(request, name: str, email: str, age: Optional[int] = None) -> UserResponse:
     """Create user with JSON body parameters."""
     return UserResponse(id=999, name=name, email=email, age=age, created=True)  # Mock ID
 
 
-@th_api.put("/users/{user_id}/update")
+@api.put("/users/{user_id}/update")
 def update_user(request, user_id: int, name: str, email: str, age: Optional[int] = None) -> UserResponse:
     """Update user with path and body parameters."""
     return UserResponse(id=user_id, name=name, email=email, age=age, created=False)

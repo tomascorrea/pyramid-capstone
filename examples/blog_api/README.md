@@ -194,7 +194,7 @@ examples/blog_api/
 ├── app.py              # Pyramid application configuration
 ├── models.py           # Data models and type definitions
 ├── data_store.py       # In-memory data storage
-├── views.py            # API endpoints using th_api decorators
+├── views.py            # API endpoints using api decorators
 └── README.md           # This documentation
 ```
 
@@ -202,7 +202,7 @@ examples/blog_api/
 
 ### Type-Safe Endpoints
 ```python
-@th_api.get('/posts/{post_id}')
+@api.get('/posts/{post_id}')
 def get_post(request, post_id: int, include_comments: bool = False) -> Post:
     """Get a post by ID with optional comments."""
     # Implementation automatically validates post_id as int
@@ -211,7 +211,7 @@ def get_post(request, post_id: int, include_comments: bool = False) -> Post:
 
 ### Complex Parameter Handling
 ```python
-@th_api.get('/posts')
+@api.get('/posts')
 def list_posts(request, status: Optional[str] = None, 
                category_id: Optional[int] = None,
                page: int = 1, per_page: int = 10) -> dict:
@@ -221,7 +221,7 @@ def list_posts(request, status: Optional[str] = None,
 
 ### Error Handling
 ```python
-@th_api.get('/users/{user_id}')
+@api.get('/users/{user_id}')
 def get_user(request, user_id: int) -> User:
     """Get a user by ID."""
     user = blog_store.get_user(user_id)

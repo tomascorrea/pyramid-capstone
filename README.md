@@ -35,13 +35,13 @@
 
 ```python
 from pyramid.config import Configurator
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
-@th_api.get('/users/{user_id}')
+@api.get('/users/{user_id}')
 def get_user(request, user_id: int) -> dict:
     return {"id": user_id, "name": "John Doe"}
 
-@th_api.post('/users')
+@api.post('/users')
 def create_user(request, name: str, email: str) -> dict:
     # Parameters automatically extracted and validated from JSON body
     return {"message": "User created", "name": name, "email": email}
@@ -68,7 +68,7 @@ pip install pyramid-capstone
 
 ```python
 from pyramid.config import Configurator
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 # Include the library in your Pyramid app
 def main(global_config, **settings):

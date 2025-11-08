@@ -1,41 +1,41 @@
 """
 Integration tests for security policies with pyramid-capstone.
 
-This module tests that the th_api decorators properly integrate with
+This module tests that the api decorators properly integrate with
 Pyramid's authentication and authorization policies in real scenarios.
 """
 
 import pytest
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 # Test views with different permission requirements
-@th_api.get("/public")
+@api.get("/public")
 def public_view(request) -> dict:
     """Public view - no permission required."""
     return {"message": "public access", "user": request.authenticated_userid}
 
 
-@th_api.get("/protected", permission="view")
+@api.get("/protected", permission="view")
 def protected_view(request) -> dict:
     """Protected view - requires authentication."""
     return {"message": "authenticated access", "user": request.authenticated_userid}
 
 
-@th_api.post("/edit", permission="edit")
+@api.post("/edit", permission="edit")
 def edit_view(request) -> dict:
     """Edit view - requires editor permission."""
     return {"message": "editor access", "user": request.authenticated_userid}
 
 
-@th_api.delete("/admin", permission="admin")
+@api.delete("/admin", permission="admin")
 def admin_view(request) -> dict:
     """Admin view - requires admin permission."""
     return {"message": "admin access", "user": request.authenticated_userid}
 
 
-@th_api.get("/multi-permission", permission="edit")
+@api.get("/multi-permission", permission="edit")
 def multi_permission_view(request) -> dict:
     """View that requires edit permission (originally intended for multiple permissions)."""
     return {"message": "multi permission access", "user": request.authenticated_userid}
@@ -133,7 +133,7 @@ def test_multi_permission_view_without_permission(security_app):
 def test_permission_none_works_like_no_permission(security_app):
     """Test that permission=None works the same as no permission parameter."""
 
-    @th_api.get("/test-none", permission=None)
+    @api.get("/test-none", permission=None)
     def test_none_view(request) -> dict:
         return {"message": "none permission"}
 

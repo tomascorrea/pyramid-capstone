@@ -5,14 +5,14 @@ A FastAPI-like decorator system for Pyramid that automatically handles
 validation and serialization using Marshmallow schemas and Cornice services.
 
 Usage:
-    from pyramid_capstone import th_api
+    from pyramid_capstone import api
     
-    @th_api.get('/users/{user_id}')
+    @api.get('/users/{user_id}')
     def get_user(request, user_id: int) -> UserResponse:
         return UserResponse(id=user_id, name="John")
 """
 
-from .decorators import th_api
+from .decorators import api
 from .exceptions import (
     ParameterConflictError,
     ParameterMissingError,
@@ -39,7 +39,7 @@ def includeme(config):
 
 
 __all__ = [
-    "th_api",
+    "api",
     "TypeHintedAPIError",
     "ParameterConflictError",
     "ParameterMissingError",

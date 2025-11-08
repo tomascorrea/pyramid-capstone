@@ -7,7 +7,7 @@ clean, type-safe REST API endpoints with automatic validation and serialization.
 
 from typing import List, Optional
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 from .data_store import blog_store
 from .models import (
@@ -23,7 +23,7 @@ from .models import (
 # =============================================================================
 
 
-@th_api.get("/health")
+@api.get("/health")
 def health_check(request) -> dict:
     """API health check endpoint."""
     return {
@@ -42,13 +42,13 @@ def health_check(request) -> dict:
 # =============================================================================
 
 
-@th_api.get("/users")
+@api.get("/users")
 def list_users(request) -> List[User]:
     """Get all users."""
     return blog_store.get_all_users()
 
 
-@th_api.get("/users/{user_id}")
+@api.get("/users/{user_id}")
 def get_user(request, user_id: int) -> User:
     """Get a user by ID."""
     user = blog_store.get_user(user_id)
@@ -58,14 +58,14 @@ def get_user(request, user_id: int) -> User:
     return user
 
 
-@th_api.post("/users")
+@api.post("/users")
 def create_user(request, username: str, email: str, full_name: str, bio: Optional[str] = None) -> User:
     """Create a new user."""
     user_id = blog_store.create_user(username, email, full_name, bio)
     return blog_store.get_user(user_id)
 
 
-@th_api.put("/users/{user_id}")
+@api.put("/users/{user_id}")
 def update_user(
     request, user_id: int, full_name: Optional[str] = None, bio: Optional[str] = None, is_active: Optional[bool] = None
 ) -> User:
@@ -77,7 +77,7 @@ def update_user(
     return user
 
 
-@th_api.delete("/users/{user_id}")
+@api.delete("/users/{user_id}")
 def delete_user(request, user_id: int) -> dict:
     """Delete a user."""
     if blog_store.delete_user(user_id):
@@ -92,13 +92,13 @@ def delete_user(request, user_id: int) -> dict:
 # =============================================================================
 
 
-@th_api.get("/categories")
+@api.get("/categories")
 def list_categories(request) -> List[Category]:
     """Get all categories."""
     return blog_store.get_all_categories()
 
 
-@th_api.get("/categories/{category_id}")
+@api.get("/categories/{category_id}")
 def get_category(request, category_id: int) -> Category:
     """Get a category by ID."""
     category = blog_store.get_category(category_id)
@@ -108,7 +108,7 @@ def get_category(request, category_id: int) -> Category:
     return category
 
 
-@th_api.post("/categories")
+@api.post("/categories")
 def create_category(request, name: str, slug: str, description: Optional[str] = None) -> Category:
     """Create a new category."""
     category_id = blog_store.create_category(name, slug, description)
@@ -120,7 +120,7 @@ def create_category(request, name: str, slug: str, description: Optional[str] = 
 # =============================================================================
 
 
-@th_api.get("/posts")
+@api.get("/posts")
 def list_posts(
     request,
     status: Optional[str] = None,
@@ -174,7 +174,7 @@ def list_posts(
     }
 
 
-@th_api.get("/posts/{post_id}")
+@api.get("/posts/{post_id}")
 def get_post(request, post_id: int, include_comments: bool = False) -> Post:
     """
     Get a post by ID.
@@ -193,7 +193,7 @@ def get_post(request, post_id: int, include_comments: bool = False) -> Post:
     return post
 
 
-@th_api.post("/posts")
+@api.post("/posts")
 def create_post(
     request,
     title: str,
@@ -228,7 +228,7 @@ def create_post(
     return blog_store.get_post(post_id, include_relations=True)
 
 
-@th_api.put("/posts/{post_id}")
+@api.put("/posts/{post_id}")
 def update_post(
     request,
     post_id: int,
@@ -264,7 +264,7 @@ def update_post(
     return blog_store.get_post(post_id, include_relations=True)
 
 
-@th_api.delete("/posts/{post_id}")
+@api.delete("/posts/{post_id}")
 def delete_post(request, post_id: int) -> dict:
     """Delete a blog post."""
     if blog_store.delete_post(post_id):
@@ -279,7 +279,7 @@ def delete_post(request, post_id: int) -> dict:
 # =============================================================================
 
 
-@th_api.get("/posts/{post_id}/comments")
+@api.get("/posts/{post_id}/comments")
 def list_post_comments(request, post_id: int) -> List[Comment]:
     """Get all comments for a post."""
     # Verify post exists
@@ -290,7 +290,7 @@ def list_post_comments(request, post_id: int) -> List[Comment]:
     return blog_store.get_comments_for_post(post_id)
 
 
-@th_api.post("/posts/{post_id}/comments")
+@api.post("/posts/{post_id}/comments")
 def create_comment(request, post_id: int, content: str, author_id: int) -> Comment:
     """Create a new comment on a post."""
     # Verify post exists
@@ -307,7 +307,7 @@ def create_comment(request, post_id: int, content: str, author_id: int) -> Comme
     return blog_store.get_comment(comment_id)
 
 
-@th_api.get("/comments/{comment_id}")
+@api.get("/comments/{comment_id}")
 def get_comment(request, comment_id: int) -> Comment:
     """Get a comment by ID."""
     comment = blog_store.get_comment(comment_id)
@@ -317,7 +317,7 @@ def get_comment(request, comment_id: int) -> Comment:
     return comment
 
 
-@th_api.delete("/comments/{comment_id}")
+@api.delete("/comments/{comment_id}")
 def delete_comment(request, comment_id: int) -> dict:
     """Delete a comment."""
     if blog_store.delete_comment(comment_id):
@@ -332,7 +332,7 @@ def delete_comment(request, comment_id: int) -> dict:
 # =============================================================================
 
 
-@th_api.get("/stats")
+@api.get("/stats")
 def get_blog_stats(request) -> dict:
     """Get blog statistics."""
     published_posts = blog_store.get_posts_count(status=PostStatus.PUBLISHED)
@@ -351,7 +351,7 @@ def get_blog_stats(request) -> dict:
     }
 
 
-@th_api.get("/users/{user_id}/posts")
+@api.get("/users/{user_id}/posts")
 def get_user_posts(request, user_id: int, status: Optional[str] = None, page: int = 1, per_page: int = 10) -> dict:
     """Get posts by a specific user."""
     # Verify user exists

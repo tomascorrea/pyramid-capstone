@@ -6,7 +6,7 @@ Tests a complete CRUD API with proper path design to avoid routing conflicts.
 from dataclasses import dataclass
 from typing import List, Optional
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 @dataclass
@@ -39,14 +39,14 @@ class UpdateArticleRequest:
 
 
 # CREATE - POST /crud/create-article
-@th_api.post("/crud/create-article")
+@api.post("/crud/create-article")
 def create_article(request, title: str, content: str, author: str) -> Article:
     """Create a new article."""
     return Article(id=999, title=title, content=content, author=author, published=False)  # Mock ID
 
 
 # READ - GET /crud/get-article/{article_id}
-@th_api.get("/crud/get-article/{article_id}")
+@api.get("/crud/get-article/{article_id}")
 def get_article(request, article_id: int) -> Article:
     """Get an article by ID."""
     return Article(
@@ -59,7 +59,7 @@ def get_article(request, article_id: int) -> Article:
 
 
 # READ - GET /crud/list-articles
-@th_api.get("/crud/list-articles")
+@api.get("/crud/list-articles")
 def list_articles(request, page: int = 1, limit: int = 10, published_only: bool = False) -> List[Article]:
     """List articles with pagination and filtering."""
     # Mock data
@@ -80,7 +80,7 @@ def list_articles(request, page: int = 1, limit: int = 10, published_only: bool 
 
 
 # UPDATE - PUT /crud/update-article/{article_id}
-@th_api.put("/crud/update-article/{article_id}")
+@api.put("/crud/update-article/{article_id}")
 def update_article(request, article_id: int, title: str, content: str, published: bool = False) -> Article:
     """Update an article."""
     return Article(
@@ -89,7 +89,7 @@ def update_article(request, article_id: int, title: str, content: str, published
 
 
 # DELETE - DELETE /crud/delete-article/{article_id}
-@th_api.delete("/crud/delete-article/{article_id}")
+@api.delete("/crud/delete-article/{article_id}")
 def delete_article(request, article_id: int) -> dict:
     """Delete an article."""
     return {"deleted": True, "article_id": article_id, "message": f"Article {article_id} deleted"}

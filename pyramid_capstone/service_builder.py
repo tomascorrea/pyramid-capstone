@@ -18,8 +18,8 @@ from .inspection import inspect_function_signature
 from .schema_generator import generate_input_schema, generate_output_schema
 
 # Registry keys for storing pending views and registered actions
-PENDING_VIEWS_KEY = "th_api.pending_views"
-REGISTERED_ACTIONS_KEY = "th_api.registered_actions"
+PENDING_VIEWS_KEY = "api.pending_views"
+REGISTERED_ACTIONS_KEY = "api.registered_actions"
 
 
 def register_type_hinted_view(config: Configurator, func: Callable, method: str, path: str, **kwargs: Any) -> None:
@@ -64,7 +64,7 @@ def register_type_hinted_view(config: Configurator, func: Callable, method: str,
         if path not in registered_actions:
             registered_actions.add(path)
             config.action(
-                discriminator=("th_api_service_creation", path),
+                discriminator=("api_service_creation", path),
                 callable=_create_service_for_path,
                 args=(config, path),
                 order=-20,  # Execute before Cornice's internal actions
@@ -256,8 +256,8 @@ def extract_service_metadata(func: Callable) -> dict:
 
     # Extract any custom attributes set by decorators
     for attr_name in dir(func):
-        if attr_name.startswith("__th_api_"):
-            key = attr_name[9:]  # Remove '__th_api_' prefix
+        if attr_name.startswith("__api_"):
+            key = attr_name[7:]  # Remove '__api_' prefix
             metadata[key] = getattr(func, attr_name)
 
     return metadata

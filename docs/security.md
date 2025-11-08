@@ -7,14 +7,14 @@
 Add the `permission` parameter to any endpoint decorator:
 
 ```python
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
-@th_api.get('/admin/users', permission='admin')
+@api.get('/admin/users', permission='admin')
 def list_users_admin(request) -> list:
     """Only users with 'admin' permission can access this."""
     return get_all_users()
 
-@th_api.post('/posts', permission='create_post')
+@api.post('/posts', permission='create_post')
 def create_post(request, title: str, content: str) -> dict:
     """Only authenticated users with 'create_post' permission."""
     return create_new_post(title, content)
@@ -31,7 +31,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import SessionAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Allow, Everyone, Authenticated
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 class RootACL:
     """Root Access Control List."""
@@ -90,18 +90,18 @@ def main(global_config, **settings):
 ### Basic Permission Checking
 
 ```python
-@th_api.get('/profile', permission='view')
+@api.get('/profile', permission='view')
 def get_profile(request) -> dict:
     """Any authenticated user can view their profile."""
     user_id = request.authenticated_userid
     return {"user_id": user_id, "profile": get_user_profile(user_id)}
 
-@th_api.post('/admin/users', permission='admin')
+@api.post('/admin/users', permission='admin')
 def create_user_admin(request, username: str, email: str) -> dict:
     """Only admins can create users."""
     return create_user(username, email)
 
-@th_api.delete('/posts/{post_id}', permission='delete_post')
+@api.delete('/posts/{post_id}', permission='delete_post')
 def delete_post(request, post_id: int) -> dict:
     """Only users with delete_post permission."""
     delete_post_by_id(post_id)
@@ -115,7 +115,7 @@ For more complex authorization, you can use dynamic permissions:
 ```python
 from pyramid.security import has_permission
 
-@th_api.get('/posts/{post_id}')
+@api.get('/posts/{post_id}')
 def get_post(request, post_id: int) -> dict:
     """Public posts are viewable by everyone, private posts need permission."""
     post = get_post_by_id(post_id)
@@ -128,7 +128,7 @@ def get_post(request, post_id: int) -> dict:
     
     return post.to_dict()
 
-@th_api.put('/posts/{post_id}')
+@api.put('/posts/{post_id}')
 def update_post(request, post_id: int, title: str, content: str) -> dict:
     """Users can only edit their own posts, unless they're admins."""
     post = get_post_by_id(post_id)
@@ -162,7 +162,7 @@ USERS = {
     }
 }
 
-@th_api.post('/auth/login')
+@api.post('/auth/login')
 def login(request, username: str, password: str) -> dict:
     """Authenticate user and create session."""
     user = USERS.get(username)
@@ -181,14 +181,14 @@ def login(request, username: str, password: str) -> dict:
         "groups": user["groups"]
     }
 
-@th_api.post('/auth/logout')
+@api.post('/auth/logout')
 def logout(request) -> dict:
     """Logout user and clear session."""
     headers = forget(request)
     request.response.headerlist.extend(headers)
     return {"message": "Logout successful"}
 
-@th_api.get('/auth/me', permission='view')
+@api.get('/auth/me', permission='view')
 def get_current_user(request) -> dict:
     """Get current authenticated user info."""
     username = request.authenticated_userid
@@ -269,7 +269,7 @@ class APIKeyAuthenticationPolicy(CallbackAuthenticationPolicy):
         return None
 
 # Protected endpoint with API key
-@th_api.get('/api/data', permission='read')
+@api.get('/api/data', permission='read')
 def get_api_data(request) -> dict:
     """Access with: Authorization: Bearer sk_test_123"""
     api_key = request.authenticated_userid
@@ -320,7 +320,7 @@ def rate_limit(max_requests: int = 100, window_seconds: int = 3600):
     return decorator
 
 # Apply rate limiting
-@th_api.post('/api/expensive-operation', permission='create')
+@api.post('/api/expensive-operation', permission='create')
 @rate_limit(max_requests=10, window_seconds=3600)  # 10 requests per hour
 def expensive_operation(request, data: str) -> dict:
     """Rate-limited endpoint."""
@@ -337,7 +337,7 @@ Always validate and sanitize input data:
 import re
 from html import escape
 
-@th_api.post('/posts')
+@api.post('/posts')
 def create_post(request, title: str, content: str, permission='create_post') -> dict:
     """Create a post with input validation."""
     
@@ -469,13 +469,13 @@ def test_admin_endpoint_requires_admin_permission(pyramid_config):
 ### Resource-Based Permissions
 
 ```python
-@th_api.get('/posts/{post_id}', permission='view_post')
+@api.get('/posts/{post_id}', permission='view_post')
 def get_post(request, post_id: int) -> dict:
     """Permission is checked against the specific post resource."""
     # Pyramid will check 'view_post' permission against the post context
     pass
 
-@th_api.put('/posts/{post_id}', permission='edit_post')
+@api.put('/posts/{post_id}', permission='edit_post')
 def update_post(request, post_id: int, title: str) -> dict:
     """Only users who can edit this specific post."""
     pass
@@ -484,7 +484,7 @@ def update_post(request, post_id: int, title: str) -> dict:
 ### Conditional Security
 
 ```python
-@th_api.get('/posts/{post_id}')
+@api.get('/posts/{post_id}')
 def get_post_conditional(request, post_id: int) -> dict:
     """Apply security conditionally based on post visibility."""
     post = get_post_by_id(post_id)

@@ -32,20 +32,20 @@ Create a file called `app.py`:
 
 ```python
 from pyramid.config import Configurator
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 # Your API endpoints
-@th_api.get('/hello')
+@api.get('/hello')
 def hello_world(request) -> dict:
     """A simple hello world endpoint."""
     return {"message": "Hello, World!"}
 
-@th_api.get('/hello/{name}')
+@api.get('/hello/{name}')
 def hello_name(request, name: str) -> dict:
     """Greet someone by name."""
     return {"message": f"Hello, {name}!"}
 
-@th_api.post('/users')
+@api.post('/users')
 def create_user(request, name: str, email: str, age: int = 25) -> dict:
     """Create a new user with automatic validation."""
     return {
@@ -115,7 +115,7 @@ Let's break down what `pyramid-capstone` did for you:
 ### 🔍 Automatic Parameter Extraction
 
 ```python
-@th_api.get('/hello/{name}')
+@api.get('/hello/{name}')
 def hello_name(request, name: str) -> dict:
     # name is automatically extracted from the URL path
     # and validated as a string
@@ -124,7 +124,7 @@ def hello_name(request, name: str) -> dict:
 ### ✅ Request Validation
 
 ```python
-@th_api.post('/users')
+@api.post('/users')
 def create_user(request, name: str, email: str, age: int = 25) -> dict:
     # Parameters are automatically extracted from JSON body
     # name and email are required (will return 400 if missing)

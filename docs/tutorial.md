@@ -249,7 +249,7 @@ Create `views.py` with our API endpoints:
 ```python
 from typing import Optional, List
 from pyramid.request import Request
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 from .models import (
     Task, TaskResponse, TaskListResponse, TaskStatus, Priority,
     User, Category
@@ -276,7 +276,7 @@ def build_task_response(task: Task) -> TaskResponse:
     )
 
 # Task endpoints
-@th_api.get('/tasks')
+@api.get('/tasks')
 def list_tasks(request: Request,
                status: Optional[str] = None,
                priority: Optional[str] = None,
@@ -317,7 +317,7 @@ def list_tasks(request: Request,
         has_prev=page > 1
     )
 
-@th_api.get('/tasks/{task_id}')
+@api.get('/tasks/{task_id}')
 def get_task(request: Request, task_id: str) -> TaskResponse:
     """Get a specific task by ID."""
     task = storage.get_task(task_id)
@@ -327,7 +327,7 @@ def get_task(request: Request, task_id: str) -> TaskResponse:
     
     return build_task_response(task)
 
-@th_api.post('/tasks')
+@api.post('/tasks')
 def create_task(request: Request,
                 title: str,
                 description: Optional[str] = None,
@@ -366,7 +366,7 @@ def create_task(request: Request,
     request.response.status = 201
     return build_task_response(created_task)
 
-@th_api.put('/tasks/{task_id}')
+@api.put('/tasks/{task_id}')
 def update_task(request: Request,
                 task_id: str,
                 title: Optional[str] = None,
@@ -415,7 +415,7 @@ def update_task(request: Request,
     updated_task = storage.update_task(task_id, updates)
     return build_task_response(updated_task)
 
-@th_api.delete('/tasks/{task_id}')
+@api.delete('/tasks/{task_id}')
 def delete_task(request: Request, task_id: str) -> dict:
     """Delete a task."""
     if not storage.delete_task(task_id):
@@ -425,12 +425,12 @@ def delete_task(request: Request, task_id: str) -> dict:
     return {"message": "Task deleted successfully"}
 
 # User endpoints
-@th_api.get('/users')
+@api.get('/users')
 def list_users(request: Request) -> List[User]:
     """List all users."""
     return storage.list_users()
 
-@th_api.get('/users/{user_id}')
+@api.get('/users/{user_id}')
 def get_user(request: Request, user_id: str) -> User:
     """Get a specific user by ID."""
     user = storage.get_user(user_id)
@@ -440,12 +440,12 @@ def get_user(request: Request, user_id: str) -> User:
     return user
 
 # Category endpoints
-@th_api.get('/categories')
+@api.get('/categories')
 def list_categories(request: Request) -> List[Category]:
     """List all categories."""
     return storage.list_categories()
 
-@th_api.get('/categories/{category_id}')
+@api.get('/categories/{category_id}')
 def get_category(request: Request, category_id: str) -> Category:
     """Get a specific category by ID."""
     category = storage.get_category(category_id)
@@ -455,7 +455,7 @@ def get_category(request: Request, category_id: str) -> Category:
     return category
 
 # Health check
-@th_api.get('/health')
+@api.get('/health')
 def health_check(request: Request) -> dict:
     """API health check."""
     return {
@@ -593,7 +593,7 @@ Here are some advanced features you can explore:
 
 ### Custom Validation
 ```python
-@th_api.post('/tasks')
+@api.post('/tasks')
 def create_task(request: Request, title: str, due_date: str) -> TaskResponse:
     # Custom date validation
     try:
@@ -615,7 +615,7 @@ class TaskWithComments:
     task: Task
     comments: List[str]
 
-@th_api.get('/tasks/{task_id}/full')
+@api.get('/tasks/{task_id}/full')
 def get_task_with_comments(request: Request, task_id: str) -> TaskWithComments:
     # Return complex nested structures
     pass
@@ -623,7 +623,7 @@ def get_task_with_comments(request: Request, task_id: str) -> TaskWithComments:
 
 ### File Uploads
 ```python
-@th_api.post('/tasks/{task_id}/attachments')
+@api.post('/tasks/{task_id}/attachments')
 def upload_attachment(request: Request, task_id: str) -> dict:
     # Handle file uploads through request.POST
     upload = request.POST.get('file')

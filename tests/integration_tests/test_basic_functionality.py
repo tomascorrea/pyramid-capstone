@@ -5,7 +5,7 @@ Tests the core features: simple endpoints, path parameters, and basic serializat
 """
 from dataclasses import dataclass
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 @dataclass
@@ -17,19 +17,19 @@ class User:
     email: str
 
 
-@th_api.get("/health")
+@api.get("/health")
 def health_check(request) -> dict:
     """Simple health check endpoint."""
     return {"status": "ok", "service": "pyramid-capstone"}
 
 
-@th_api.get("/user/{user_id}")
+@api.get("/user/{user_id}")
 def get_user(request, user_id: int) -> User:
     """Get user by ID with path parameter."""
     return User(id=user_id, name=f"User {user_id}", email=f"user{user_id}@example.com")
 
 
-@th_api.get("/message/{text}")
+@api.get("/message/{text}")
 def echo_message(request, text: str) -> dict:
     """Echo a text message."""
     return {"message": text, "length": len(text)}

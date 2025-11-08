@@ -14,7 +14,7 @@ from pyramid.security import Allow, Authenticated, Everyone
 from pyramid.testing import setUp, tearDown
 from webtest import TestApp
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 class StaticAuthenticationPolicy:
@@ -329,7 +329,7 @@ def create_test_view():
         test_view.__name__ = f"test_view_{method.lower()}_{path.replace('/', '_').replace('{', '').replace('}', '')}"
 
         # Apply the appropriate decorator
-        decorator = getattr(th_api, method.lower())
+        decorator = getattr(api, method.lower())
         return decorator(path)(test_view)
 
     return _create_view

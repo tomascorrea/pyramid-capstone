@@ -25,7 +25,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 
 **Acceptance Criteria**:
 - [x] All references to old name are updated
-- [x] Package can be imported as `from pyramid_capstone import th_api`
+- [x] Package can be imported as `from pyramid_capstone import api`
 - [x] All tests pass
 - [x] Documentation reflects new name
 - [x] URLs point to new repository
@@ -93,7 +93,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 - [ ] Package is available on PyPI as `pyramid-capstone`
 - [ ] Documentation is live at GitHub Pages
 - [ ] Installation works: `pip install pyramid-capstone`
-- [ ] Import works: `from pyramid_capstone import th_api`
+- [ ] Import works: `from pyramid_capstone import api`
 
 **Estimated Effort**: 1-2 hours
 **Dependencies**: PyPI account and GitHub repository access
@@ -140,7 +140,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
   - [x] Usage examples
 
 **Acceptance Criteria**:
-- [x] Complete working Pyramid application using th_api decorators
+- [x] Complete working Pyramid application using api decorators
 - [x] Demonstrates all major features of the library
 - [x] Easy to run and explore (`pserve development.ini`)
 - [x] Well-documented with clear examples
@@ -157,10 +157,10 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 
 ### Current Focus: Pyramid Security Integration
 
-#### Task Group 1: Security Support in th_api Decorators
+#### Task Group 1: Security Support in api Decorators
 **Status**: COMPLETED
 **Priority**: High
-**Description**: Integrate Pyramid's authentication/authorization system into th_api decorators
+**Description**: Integrate Pyramid's authentication/authorization system into api decorators
 
 **Subtasks**:
 - [x] Add optional `permission` parameter to all HTTP method decorators
@@ -172,7 +172,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 - [ ] Update documentation with security examples
 
 **Acceptance Criteria**:
-- [x] Users can write `@th_api.get('/users', permission='view')`
+- [x] Users can write `@api.get('/users', permission='view')`
 - [x] Permission parameter is optional (backward compatibility)
 - [x] Pyramid handles all security checks and exceptions
 - [x] Works with any Pyramid authentication/authorization policy

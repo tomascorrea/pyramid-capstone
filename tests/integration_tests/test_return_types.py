@@ -6,7 +6,7 @@ Tests serialization of various return types: dict, dataclass, lists, optional fi
 from dataclasses import dataclass
 from typing import List, Optional
 
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 
 @dataclass
@@ -19,19 +19,19 @@ class Product:
     description: Optional[str] = None
 
 
-@th_api.get("/return/dict")
+@api.get("/return/dict")
 def return_dict(request) -> dict:
     """Return a simple dictionary."""
     return {"type": "dict", "count": 42, "active": True}
 
 
-@th_api.get("/return/dataclass")
+@api.get("/return/dataclass")
 def return_dataclass(request) -> Product:
     """Return a dataclass object."""
     return Product(id=1, name="Test Product", price=29.99, description="A test product")
 
 
-@th_api.get("/return/dataclass-optional")
+@api.get("/return/dataclass-optional")
 def return_dataclass_with_optional(request) -> Product:
     """Return a dataclass with optional field omitted."""
     return Product(
@@ -42,13 +42,13 @@ def return_dataclass_with_optional(request) -> Product:
     )
 
 
-@th_api.get("/return/list-dict")
+@api.get("/return/list-dict")
 def return_list_of_dicts(request) -> List[dict]:
     """Return a list of dictionaries."""
     return [{"id": 1, "name": "Item 1"}, {"id": 2, "name": "Item 2"}, {"id": 3, "name": "Item 3"}]
 
 
-@th_api.get("/return/list-dataclass")
+@api.get("/return/list-dataclass")
 def return_list_of_dataclass(request) -> List[Product]:
     """Return a list of dataclass objects."""
     return [

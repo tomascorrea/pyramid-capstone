@@ -7,9 +7,9 @@ Create a FastAPI-like decorator system for Pyramid that automatically handles va
 
 ### Core Concept
 ```python
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
-@th_api.post('/users/{user_id}')
+@api.post('/users/{user_id}')
 def update_user(request, user_id: int, name: str) -> UserResponse:
     # Business logic here
     return UserResponse(id=user_id, name=name)
@@ -24,7 +24,7 @@ def update_user(request, user_id: int, name: str) -> UserResponse:
 
 ## Implementation Components
 
-### 1. Decorator System (`th_api`)
+### 1. Decorator System (`api`)
 - **Location**: `pyramid_capstone/decorators.py`
 - **HTTP Methods**: `get`, `post`, `put`, `delete`, `patch`, `options`, `head`
 - **Venusian Integration**: Use category "pyramid_type_hinted"
@@ -216,7 +216,7 @@ def create_view_handler(
 ## File Structure
 ```
 pyramid_capstone/
-├── __init__.py              # Main exports (th_api instance)
+├── __init__.py              # Main exports (api instance)
 ├── decorators.py            # TypeHintedAPI class and HTTP method decorators
 ├── inspection.py            # Function signature inspection utilities
 ├── context.py               # Parameter context and injection system

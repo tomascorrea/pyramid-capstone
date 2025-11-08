@@ -35,14 +35,14 @@ pserve development.ini
 ### 1. Simple CRUD Operations
 
 ```python
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 from typing import List, Optional
 
 # In-memory storage for demo
 books = {}
 next_id = 1
 
-@th_api.get('/books')
+@api.get('/books')
 def list_books(request, 
                author: Optional[str] = None,
                genre: Optional[str] = None,
@@ -74,7 +74,7 @@ def list_books(request,
         }
     }
 
-@th_api.get('/books/{book_id}')
+@api.get('/books/{book_id}')
 def get_book(request, book_id: int) -> dict:
     """Get a specific book by ID."""
     book = books.get(book_id)
@@ -83,7 +83,7 @@ def get_book(request, book_id: int) -> dict:
         return {"error": "Book not found"}
     return book
 
-@th_api.post('/books')
+@api.post('/books')
 def create_book(request, 
                 title: str, 
                 author: str, 
@@ -118,7 +118,7 @@ def create_book(request,
     request.response.status = 201
     return book
 
-@th_api.put('/books/{book_id}')
+@api.put('/books/{book_id}')
 def update_book(request, 
                 book_id: int,
                 title: Optional[str] = None,
@@ -147,7 +147,7 @@ def update_book(request,
     book["updated_at"] = datetime.now().isoformat()
     return book
 
-@th_api.delete('/books/{book_id}')
+@api.delete('/books/{book_id}')
 def delete_book(request, book_id: int) -> dict:
     """Delete a book."""
     if book_id not in books:
@@ -163,12 +163,12 @@ def delete_book(request, book_id: int) -> dict:
 ```python
 import os
 import uuid
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 UPLOAD_DIR = "/tmp/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-@th_api.post('/upload')
+@api.post('/upload')
 def upload_file(request, description: Optional[str] = None) -> dict:
     """Upload a file with optional description."""
     
@@ -217,7 +217,7 @@ def upload_file(request, description: Optional[str] = None) -> dict:
     request.response.status = 201
     return file_info
 
-@th_api.get('/files/{file_id}')
+@api.get('/files/{file_id}')
 def download_file(request, file_id: str) -> dict:
     """Download a file by ID."""
     # In a real app, you'd look up file metadata from database
@@ -287,7 +287,7 @@ def validate_zip_code(zip_code: str) -> str:
         raise ValueError("Invalid ZIP code format")
     return zip_code
 
-@th_api.post('/people')
+@api.post('/people')
 def create_person(request,
                   first_name: str,
                   last_name: str,
@@ -399,7 +399,7 @@ def create_person(request,
 ```python
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 # Thread pool for background tasks
 executor = ThreadPoolExecutor(max_workers=4)
@@ -429,7 +429,7 @@ def long_running_task(task_id: str, data: dict) -> dict:
     
     return tasks[task_id]["result"]
 
-@th_api.post('/tasks')
+@api.post('/tasks')
 def create_task(request, task_type: str, data: dict) -> dict:
     """Create a background task."""
     
@@ -460,7 +460,7 @@ def create_task(request, task_type: str, data: dict) -> dict:
         "status_url": f"/tasks/{task_id}"
     }
 
-@th_api.get('/tasks/{task_id}')
+@api.get('/tasks/{task_id}')
 def get_task_status(request, task_id: str) -> dict:
     """Get task status and result."""
     
@@ -493,7 +493,7 @@ def get_task_status(request, task_id: str) -> dict:
         "error": task.get("error")
     }
 
-@th_api.get('/tasks')
+@api.get('/tasks')
 def list_tasks(request, status: Optional[str] = None) -> dict:
     """List all tasks with optional status filter."""
     
@@ -511,13 +511,13 @@ def list_tasks(request, status: Optional[str] = None) -> dict:
 ### 5. WebSocket Integration
 
 ```python
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 import json
 
 # WebSocket connections storage
 websocket_connections = set()
 
-@th_api.post('/notifications')
+@api.post('/notifications')
 def send_notification(request, message: str, notification_type: str = "info") -> dict:
     """Send notification to all connected WebSocket clients."""
     
@@ -545,7 +545,7 @@ def send_notification(request, message: str, notification_type: str = "info") ->
         "notification": notification
     }
 
-@th_api.get('/notifications/stats')
+@api.get('/notifications/stats')
 def get_notification_stats(request) -> dict:
     """Get notification system statistics."""
     return {
@@ -553,7 +553,7 @@ def get_notification_stats(request) -> dict:
         "server_time": datetime.now().isoformat()
     }
 
-# WebSocket handler (separate from th_api decorators)
+# WebSocket handler (separate from api decorators)
 def websocket_view(request):
     """Handle WebSocket connections."""
     ws = request.environ.get('wsgi.websocket')
@@ -600,10 +600,10 @@ def websocket_view(request):
 ### 6. API Versioning
 
 ```python
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 # Version 1 API
-@th_api.get('/v1/users/{user_id}')
+@api.get('/v1/users/{user_id}')
 def get_user_v1(request, user_id: int) -> dict:
     """Get user (v1 format)."""
     user = get_user_from_db(user_id)
@@ -619,7 +619,7 @@ def get_user_v1(request, user_id: int) -> dict:
     }
 
 # Version 2 API
-@th_api.get('/v2/users/{user_id}')
+@api.get('/v2/users/{user_id}')
 def get_user_v2(request, user_id: int, include_profile: bool = False) -> dict:
     """Get user (v2 format with enhanced features)."""
     user = get_user_from_db(user_id)
@@ -651,7 +651,7 @@ def get_user_v2(request, user_id: int, include_profile: bool = False) -> dict:
     return result
 
 # Version negotiation through headers
-@th_api.get('/users/{user_id}')
+@api.get('/users/{user_id}')
 def get_user_versioned(request, user_id: int) -> dict:
     """Get user with version negotiation."""
     
@@ -673,7 +673,7 @@ def get_user_versioned(request, user_id: int) -> dict:
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
-from pyramid_capstone import th_api
+from pyramid_capstone import api
 
 Base = declarative_base()
 
@@ -699,7 +699,7 @@ class Post(Base):
     
     author = relationship("User", back_populates="posts")
 
-@th_api.get('/users/{user_id}/posts')
+@api.get('/users/{user_id}/posts')
 def get_user_posts(request, user_id: int, page: int = 1, per_page: int = 10) -> dict:
     """Get user posts with SQLAlchemy."""
     
