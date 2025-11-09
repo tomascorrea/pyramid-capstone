@@ -238,7 +238,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 - [x] Fix ListSchemaInfo handling for list response types
 - [x] Create test_openapi_integration.py with 5 comprehensive tests
 - [x] All tests pass (223 tests including 5 new OpenAPI tests)
-- [ ] Update documentation with OpenAPI generation instructions
+- [x] Update documentation with OpenAPI generation instructions
 
 **Acceptance Criteria**:
 - [x] pycornmarsh is properly initialized via includeme
@@ -250,7 +250,7 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 - [x] All endpoints are documented in OpenAPI spec
 - [x] Schemas are included in OpenAPI spec
 - [x] No breaking changes to existing API (all 223 tests pass)
-- [ ] Documentation updated with usage instructions
+- [x] Documentation updated with usage instructions (new openapi.md guide + updated getting-started.md)
 
 **Estimated Effort**: 2-3 hours
 **Dependencies**: Understanding of pycornmarsh predicates

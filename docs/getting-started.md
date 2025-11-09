@@ -65,6 +65,13 @@ def main(global_config, **settings):
     # Include pyramid-capstone
     config.include('pyramid_capstone')
     
+    # Enable OpenAPI documentation (optional but recommended!)
+    config.capstone_enable_openapi_docs(
+        title="Hello World API",
+        version="1.0.0",
+        description="My first pyramid-capstone API"
+    )
+    
     # Scan for decorated views
     config.scan()
     
@@ -86,7 +93,28 @@ python app.py
 
 Your API is now running on `http://localhost:6543`!
 
-### 3. Test Your Endpoints
+### 3. View Interactive Documentation
+
+Open your browser and visit:
+
+```
+http://localhost:6543/api/v1/api-explorer
+```
+
+You'll see a **Swagger UI** interface with all your endpoints documented automatically! You can:
+
+- Browse all available endpoints
+- See request/response schemas
+- Test endpoints directly from your browser
+- View example requests and responses
+
+The OpenAPI JSON specification is also available at:
+
+```
+http://localhost:6543/api/v1/openapi.json
+```
+
+### 4. Test Your Endpoints
 
 Try these requests:
 
@@ -220,8 +248,9 @@ def main(global_config, **settings):
 
 ## Next Steps
 
-Now that you have a basic API running, you might want to:
+Now that you have a basic API running with automatic documentation, you might want to:
 
+- **[Explore OpenAPI Features](openapi.md)** - Learn more about the automatic documentation system
 - **[Follow the Tutorial](tutorial.md)** - Learn more advanced features with a complete example
 - **[Add Security](security.md)** - Protect your endpoints with authentication
 - **[See Examples](examples.md)** - Explore real-world patterns and use cases
