@@ -57,13 +57,30 @@ def capstone_enable_openapi_docs(config, title, version, description=None, api_v
         if "version" not in request.matchdict:
             request.matchdict["version"] = api_version
         
-        return get_spec(
+        spec = get_spec(
             request=request,
             title=title,
             version=version,
             description=description,
             security_scheme=None,
         )
+        
+        # Fix double slashes in paths (pycornmarsh bug workaround)
+        if "paths" in spec:
+            fixed_paths = {}
+            for path, methods in spec["paths"].items():
+                # Remove double slashes at the start of paths
+                fixed_path = path.replace("//", "/")
+                fixed_paths[fixed_path] = methods
+            spec["paths"] = fixed_paths
+        
+        # Ensure server URLs don't have trailing slashes
+        if "servers" in spec:
+            for server in spec["servers"]:
+                if "url" in server and server["url"].endswith("/"):
+                    server["url"] = server["url"].rstrip("/")
+        
+        return spec
     
     # Register the OpenAPI JSON endpoint with {version} placeholder
     route_name = f"capstone_openapi_spec_{api_version}"
