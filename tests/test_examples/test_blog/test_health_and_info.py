@@ -37,9 +37,8 @@ def test_root_endpoint(test_blog_app):
     # Check documentation links
     assert "documentation" in data
     doc = data["documentation"]
-    assert doc["swagger_ui"] == "/swagger-ui/"
-    assert doc["redoc"] == "/redoc/"
-    assert doc["openapi_json"] == "/openapi.json"
+    assert doc["api_explorer"] == "/api/v1/api-explorer"
+    assert doc["openapi_json"] == "/api/v1/openapi.json"
 
     # Check quick links
     assert "quick_links" in data

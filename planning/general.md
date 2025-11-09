@@ -218,6 +218,45 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 
 ---
 
+## Phase 12: OpenAPI Documentation Integration (pycornmarsh)
+
+### Current Focus: Integrate pycornmarsh for Automatic OpenAPI Generation
+
+#### Task Group 1: pycornmarsh Integration
+**Status**: COMPLETED
+**Priority**: High
+**Description**: Integrate pycornmarsh to automatically generate OpenAPI documentation from pyramid-capstone decorators
+
+**Subtasks**:
+- [x] Install and examine pycornmarsh package structure
+- [x] Understand pycornmarsh predicates and API
+- [x] Add pycornmarsh includeme to pyramid_capstone.includeme
+- [x] Update service builder to add pycornmarsh predicates when generating views
+- [x] Pass generated schemas to pycornmarsh predicates (pcm_request, pcm_responses)
+- [x] Create config.capstone_enable_openapi_docs() directive
+- [x] Add api_prefix parameter with default "/api"
+- [x] Fix ListSchemaInfo handling for list response types
+- [x] Create test_openapi_integration.py with 5 comprehensive tests
+- [x] All tests pass (223 tests including 5 new OpenAPI tests)
+- [ ] Update documentation with OpenAPI generation instructions
+
+**Acceptance Criteria**:
+- [x] pycornmarsh is properly initialized via includeme
+- [x] Generated schemas are passed to pcm_request and pcm_responses predicates
+- [x] OpenAPI spec is automatically generated from type hints
+- [x] Users can enable OpenAPI with config.capstone_enable_openapi_docs()
+- [x] /api/v1/openapi.json endpoint works and returns valid OpenAPI 3.0 spec
+- [x] /api/v1/api-explorer endpoint provides Swagger UI
+- [x] All endpoints are documented in OpenAPI spec
+- [x] Schemas are included in OpenAPI spec
+- [x] No breaking changes to existing API (all 223 tests pass)
+- [ ] Documentation updated with usage instructions
+
+**Estimated Effort**: 2-3 hours
+**Dependencies**: Understanding of pycornmarsh predicates
+
+---
+
 ## Next Up (Backlog)
 
 ### Task Group 3: Performance & Polish

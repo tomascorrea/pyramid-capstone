@@ -159,12 +159,21 @@ def _create_service_for_path(config: Configurator, path: str) -> None:
                 
                 validators.append(make_validator(input_schema))
 
-            # Add this method to the service with its validators
+            # Prepare pycornmarsh predicates for OpenAPI documentation
+            pcm_kwargs = _build_pycornmarsh_predicates(
+                func=func,
+                input_schema=input_schema,
+                output_schema=output_schema,
+                kwargs=kwargs
+            )
+
+            # Add this method to the service with its validators and pycornmarsh predicates
             service.add_view(
                 method.upper(), 
                 view_handler, 
                 permission=kwargs.get("permission"),
-                validators=tuple(validators) if validators else ()
+                validators=tuple(validators) if validators else (),
+                **pcm_kwargs
             )
 
         # Register the service with Pyramid
@@ -298,3 +307,57 @@ def extract_service_metadata(func: Callable) -> dict:
             metadata[key] = getattr(func, attr_name)
 
     return metadata
+
+
+def _build_pycornmarsh_predicates(
+    func: Callable,
+    input_schema: Optional[Type[Schema]],
+    output_schema: Optional[Type[Schema]],
+    kwargs: dict,
+) -> dict:
+    """
+    Build pycornmarsh predicates for OpenAPI documentation generation.
+
+    Args:
+        func: Original decorated function
+        input_schema: Generated input schema (optional)
+        output_schema: Generated output schema (optional)
+        kwargs: Additional kwargs from the decorator
+
+    Returns:
+        Dictionary of pycornmarsh predicates to be added to the view
+    """
+    pcm_kwargs = {}
+
+    # Add request schema if available
+    # pycornmarsh expects pcm_request with schemas for different locations (body, querystring, etc.)
+    if input_schema:
+        pcm_kwargs["pcm_request"] = {"body": input_schema}
+
+    # Add response schemas if available
+    # pycornmarsh expects pcm_responses as a dict with status codes as keys
+    if output_schema:
+        # Handle ListSchemaInfo (for list return types)
+        if hasattr(output_schema, "is_list_schema") and output_schema.is_list_schema:
+            # For lists, pass the item schema with many=True
+            pcm_kwargs["pcm_responses"] = {"200": output_schema.item_schema(many=True)}
+        else:
+            pcm_kwargs["pcm_responses"] = {"200": output_schema}
+
+    # Add summary from docstring first line if available
+    if func.__doc__:
+        doc_lines = func.__doc__.strip().split("\n")
+        if doc_lines:
+            pcm_kwargs["pcm_summary"] = doc_lines[0].strip()
+            # Add full docstring as description
+            pcm_kwargs["pcm_description"] = func.__doc__.strip()
+
+    # Add tags if provided in kwargs
+    if "tags" in kwargs:
+        pcm_kwargs["pcm_tags"] = kwargs["tags"] if isinstance(kwargs["tags"], list) else [kwargs["tags"]]
+
+    # Add show version if provided (for versioned APIs)
+    # Default to "v1" if not specified
+    pcm_kwargs["pcm_show"] = kwargs.get("api_version", "v1")
+
+    return pcm_kwargs

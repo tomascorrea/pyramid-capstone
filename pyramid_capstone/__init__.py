@@ -24,6 +24,60 @@ from .exceptions import (
 __version__ = "0.0.1"
 
 
+def capstone_enable_openapi_docs(config, title, version, description=None, api_version="v1", api_prefix="/api"):
+    """
+    Enable automatic OpenAPI documentation generation for pyramid-capstone endpoints.
+    
+    Args:
+        config: Pyramid configurator
+        title: API title for OpenAPI spec
+        version: API version for OpenAPI spec
+        description: Optional API description
+        api_version: URL version prefix (default: "v1")
+        api_prefix: URL prefix for API routes (default: "/api")
+    
+    Example:
+        config.capstone_enable_openapi_docs(
+            title="My API",
+            version="1.0.0",
+            description="My amazing API",
+            api_version="v1",
+            api_prefix="/api"
+        )
+        
+        This will create:
+        - /api/v1/openapi.json - OpenAPI specification
+        - /api/v1/api-explorer - Swagger UI
+    """
+    from pycornmarsh import get_spec
+    
+    def openapi_spec_view(request):
+        """Generate OpenAPI specification for pyramid-capstone endpoints."""
+        # Ensure the version is in the matchdict for pycornmarsh filtering
+        if "version" not in request.matchdict:
+            request.matchdict["version"] = api_version
+        
+        return get_spec(
+            request=request,
+            title=title,
+            version=version,
+            description=description,
+            security_scheme=None,
+        )
+    
+    # Register the OpenAPI JSON endpoint with {version} placeholder
+    route_name = f"capstone_openapi_spec_{api_version}"
+    route_path = f"{api_prefix}/{{version}}/openapi.json"
+    config.add_route(route_name, route_path)
+    config.add_view(openapi_spec_view, route_name=route_name, renderer="json")
+    
+    # Register the API explorer (Swagger UI)
+    config.pyramid_apispec_add_explorer(
+        spec_route_name=route_name,
+        explorer_route_path=f"{api_prefix}/{{version}}/api-explorer",
+    )
+
+
 def includeme(config):
     """
     Pyramid includeme function for pyramid-capstone.
@@ -33,6 +87,12 @@ def includeme(config):
     """
     # Ensure Cornice is included
     config.include("cornice")
+
+    # Include pycornmarsh for automatic OpenAPI documentation generation
+    config.include("pycornmarsh")
+    
+    # Add the capstone_enable_openapi_docs directive
+    config.add_directive("capstone_enable_openapi_docs", capstone_enable_openapi_docs)
 
     # Add any additional configuration here if needed
     # For now, the library works through venusian scanning, so no additional setup is required

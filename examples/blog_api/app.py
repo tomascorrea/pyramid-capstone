@@ -25,11 +25,17 @@ def create_app(global_config, data_store_factory=None, **settings):
     # Include Cornice for REST API support
     config.include("cornice")
 
-    # Include our pyramid-capstone library
+    # Include our pyramid-capstone library (which includes pycornmarsh automatically)
     config.include("pyramid_capstone")
-
-    # Include pycornmarsh for OpenAPI documentation
-    config.include("pycornmarsh")
+    
+    # Enable automatic OpenAPI documentation
+    config.capstone_enable_openapi_docs(
+        title="Blog API",
+        version="1.0.0",
+        description="A comprehensive Blog API built with pyramid-capstone demonstrating "
+                    "type-hinted endpoints with automatic validation and OpenAPI documentation.",
+        api_version="v1"
+    )
 
     # Scan for pyramid-capstone decorated views
     config.scan("examples.blog_api.views", categories=["pyramid_type_hinted"])
@@ -48,7 +54,10 @@ def root_view(request):
         "message": "Welcome to the Blog API Example",
         "description": "A comprehensive demonstration of pyramid-capstone with automatic OpenAPI documentation",
         "version": "1.0.0",
-        "documentation": {"swagger_ui": "/swagger-ui/", "redoc": "/redoc/", "openapi_json": "/openapi.json"},
+        "documentation": {
+            "api_explorer": "/api/v1/api-explorer",
+            "openapi_json": "/api/v1/openapi.json"
+        },
         "features_demonstrated": [
             "Type-hinted API endpoints with automatic validation",
             "CRUD operations for multiple entities (users, posts, categories, comments)",

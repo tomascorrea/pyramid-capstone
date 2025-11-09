@@ -16,6 +16,7 @@ pyramid = "^2.0"
 cornice = "^6.0"
 marshmallow = "^3.19"
 venusian = "^3.0"
+pycornmarsh = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"
@@ -26,7 +27,6 @@ pre-commit = "^2.20.0"
 tox = "^3.25.1"
 webtest = "^3.0.0"
 waitress = "^3.0.0"
-pycornmarsh = "*"
 mkdocs-material = "^9.6.18"
 
 [tool.poetry.group.docs.dependencies]
