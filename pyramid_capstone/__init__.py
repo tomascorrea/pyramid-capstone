@@ -12,6 +12,8 @@ Usage:
         return UserResponse(id=user_id, name="John")
 """
 
+from pycornmarsh import get_spec
+
 from .decorators import api
 from .exceptions import (
     ParameterConflictError,
@@ -24,7 +26,9 @@ from .exceptions import (
 __version__ = "0.0.1"
 
 
-def capstone_enable_openapi_docs(config, title, version, description=None, api_version="v1", api_prefix="/api"):
+def capstone_enable_openapi_docs(
+    config, title, version, description=None, api_version="v1", api_prefix="/api", security_scheme=None
+):
     """
     Enable automatic OpenAPI documentation generation for pyramid-capstone endpoints.
     
@@ -35,6 +39,7 @@ def capstone_enable_openapi_docs(config, title, version, description=None, api_v
         description: Optional API description
         api_version: URL version prefix (default: "v1")
         api_prefix: URL prefix for API routes (default: "/api")
+        security_scheme: Optional security scheme definition for OpenAPI spec
     
     Example:
         config.capstone_enable_openapi_docs(
@@ -42,14 +47,20 @@ def capstone_enable_openapi_docs(config, title, version, description=None, api_v
             version="1.0.0",
             description="My amazing API",
             api_version="v1",
-            api_prefix="/api"
+            api_prefix="/api",
+            security_scheme={
+                "BearerAuth": {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+            }
         )
         
         This will create:
         - /api/v1/openapi.json - OpenAPI specification
         - /api/v1/api-explorer - Swagger UI
     """
-    from pycornmarsh import get_spec
     
     def openapi_spec_view(request):
         """Generate OpenAPI specification for pyramid-capstone endpoints."""
@@ -62,7 +73,7 @@ def capstone_enable_openapi_docs(config, title, version, description=None, api_v
             title=title,
             version=version,
             description=description,
-            security_scheme=None,
+            security_scheme=security_scheme,
         )
         
         # Fix double slashes in paths (pycornmarsh bug workaround)

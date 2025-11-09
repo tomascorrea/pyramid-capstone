@@ -53,7 +53,14 @@ config.capstone_enable_openapi_docs(
     description="A complete task management system with user assignment, "
                 "categories, and priority tracking.",
     api_version="v1",         # Optional: URL version prefix (default: "v1")
-    api_prefix="/api"         # Optional: URL prefix (default: "/api")
+    api_prefix="/api",        # Optional: URL prefix (default: "/api")
+    security_scheme={         # Optional: Security scheme for authenticated endpoints
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        }
+    }
 )
 ```
 
@@ -70,6 +77,82 @@ config.capstone_enable_openapi_docs(
     api_prefix="/docs"
 )
 ```
+
+### Adding Security Schemes
+
+Document authentication requirements in your OpenAPI spec:
+
+```python
+# Bearer Token (JWT)
+config.capstone_enable_openapi_docs(
+    title="Secure API",
+    version="1.0.0",
+    security_scheme={
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        }
+    }
+)
+
+# API Key in Header
+config.capstone_enable_openapi_docs(
+    title="API Key Protected API",
+    version="1.0.0",
+    security_scheme={
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        }
+    }
+)
+
+# OAuth 2.0
+config.capstone_enable_openapi_docs(
+    title="OAuth Protected API",
+    version="1.0.0",
+    security_scheme={
+        "OAuth2": {
+            "type": "oauth2",
+            "flows": {
+                "authorizationCode": {
+                    "authorizationUrl": "https://example.com/oauth/authorize",
+                    "tokenUrl": "https://example.com/oauth/token",
+                    "scopes": {
+                        "read": "Read access",
+                        "write": "Write access"
+                    }
+                }
+            }
+        }
+    }
+)
+
+# Multiple Security Schemes
+config.capstone_enable_openapi_docs(
+    title="Multi-Auth API",
+    version="1.0.0",
+    security_scheme={
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        },
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        }
+    }
+)
+```
+
+When you define a security scheme, it will appear in the Swagger UI, allowing users to:
+- See which endpoints require authentication
+- Test authenticated endpoints by providing credentials
+- Understand the authentication mechanism
 
 ## What Gets Documented?
 
