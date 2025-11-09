@@ -160,24 +160,9 @@ def _create_field_from_type(type_hint: Type, field_name: str) -> fields.Field:
 
     # Handle Enum types
     if isinstance(type_hint, type) and issubclass(type_hint, Enum):
-        # Get all valid enum values
-        valid_values = [member.value for member in type_hint]
-        
-        # Create a custom field that validates and serializes enum values properly
-        class EnumField(fields.String):
-            def _serialize(self, value, attr, obj, **kwargs):
-                if isinstance(value, Enum):
-                    return value.value
-                return value
-            
-            def _deserialize(self, value, attr, data, **kwargs):
-                # Validate the value is a valid enum value
-                if value not in valid_values:
-                    self.fail(f"Invalid value. Must be one of: {', '.join(valid_values)}")
-                # Return the Enum instance
-                return type_hint(value)
-
-        return EnumField(validate=validate.OneOf(valid_values))
+        # Use Marshmallow's built-in Enum field
+        # by_value=True means we serialize/deserialize using the enum's value (not name)
+        return fields.Enum(type_hint, by_value=True)
 
     # Handle complex types (classes with annotations)
     if hasattr(type_hint, "__annotations__"):

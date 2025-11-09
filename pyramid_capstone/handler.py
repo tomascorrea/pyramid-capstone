@@ -46,26 +46,21 @@ def create_view_handler(
         Returns:
             Response data (will be serialized by Cornice/Pyramid)
         """
-
-        try:
-            # Build function arguments from request
+        # Use validated data from Cornice (set by validators)
+        # Cornice stores validated data in request.validated
+        if hasattr(request, 'validated'):
+            # Cornice has already validated - use the validated data
+            function_args = {'request': request}
+            function_args.update(request.validated)
+        else:
+            # Fallback: build arguments manually (for non-validated endpoints)
             function_args = context.build_function_arguments(request, signature)
 
-            # Call the original function
-            result = original_func(**function_args)
+        # Call the original function
+        result = original_func(**function_args)
 
-            # Handle the response
-            return handle_response(result, output_schema, request)
-
-        except ParameterMissingError as e:
-            # Return 400 Bad Request for missing parameters
-            request.response.status_code = 400
-            return {"error": "Bad Request", "message": str(e)}
-        
-        except ValueError as e:
-            # Return 400 Bad Request for invalid parameter values (including enum validation)
-            request.response.status_code = 400
-            return {"error": "Bad Request", "message": str(e)}
+        # Handle the response
+        return handle_response(result, output_schema, request)
 
 
     # Copy metadata from original function

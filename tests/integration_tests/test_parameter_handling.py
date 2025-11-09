@@ -4,6 +4,7 @@ Integration tests for parameter handling.
 Tests path parameters, query parameters, and JSON body parameters.
 """
 from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
 
 from pyramid_capstone import api
@@ -61,6 +62,23 @@ def create_user(request, name: str, email: str, age: Optional[int] = None) -> Us
 def update_user(request, user_id: int, name: str, email: str, age: Optional[int] = None) -> UserResponse:
     """Update user with path and body parameters."""
     return UserResponse(id=user_id, name=name, email=email, age=age, created=False)
+
+
+class Priority(str, Enum):
+    """Priority levels for testing enum validation."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
+
+@api.post("/tasks/create")
+def create_task(request, title: str, priority: Priority) -> dict:
+    """Create task with enum parameter."""
+    return {
+        "id": 123,
+        "title": title,
+        "priority": priority.value,  # Return the value
+    }
 
 
 def test_query_parameters(app_factory):
@@ -185,3 +203,33 @@ def test_parameter_type_conversion(app_factory):
     assert data["item_id"] == 789  # String "789" converted to int
     assert isinstance(data["item_id"], int)
     # include_metadata=false should result in no metadata
+
+
+def test_enum_parameter_valid_value(app_factory):
+    """Test endpoint with valid enum parameter."""
+    app = app_factory(scan_packages=[__name__])
+
+    task_data = {"title": "Important task", "priority": "high"}
+    response = app.post_json("/tasks/create", task_data)
+
+    assert response.status_code == 200
+    data = response.json
+    assert data["title"] == "Important task"
+    assert data["priority"] == "high"
+
+
+def test_enum_parameter_invalid_value(app_factory):
+    """Test endpoint with invalid enum parameter returns 400."""
+    app = app_factory(scan_packages=[__name__])
+
+    task_data = {"title": "Invalid task", "priority": "urgent"}
+    response = app.post_json("/tasks/create", task_data, status=400)
+
+    assert response.status_code == 400
+    # Cornice returns validation errors in this format
+    assert "errors" in response.json
+    errors = response.json["errors"]
+    assert len(errors) > 0
+    # Check that the error mentions valid values
+    error_description = errors[0]["description"]
+    assert "low" in error_description or "medium" in error_description or "high" in error_description

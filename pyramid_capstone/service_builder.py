@@ -127,8 +127,45 @@ def _create_service_for_path(config: Configurator, path: str) -> None:
                 output_schema=output_schema,
             )
 
-            # Add this method to the service
-            service.add_view(method.upper(), view_handler, permission=kwargs.get("permission"))
+            # Create validator for this specific view
+            validators = []
+            if input_schema:
+                def make_validator(schema):
+                    """Create a validator function for this schema."""
+                    def validate_request(request, **kwargs):
+                        """Validate request data using Marshmallow schema."""
+                        try:
+                            # Extract data based on request method
+                            if request.method in ("POST", "PUT", "PATCH"):
+                                data = request.json_body if request.content_type == "application/json" else dict(request.POST)
+                            else:
+                                data = dict(request.GET)
+
+                            # Add path parameters
+                            if hasattr(request, "matchdict") and request.matchdict:
+                                data.update(request.matchdict)
+
+                            # Validate using schema
+                            schema_instance = schema()
+                            validated_data = schema_instance.load(data)
+
+                            # Store validated data on request (Cornice convention)
+                            request.validated = validated_data
+
+                        except Exception as e:
+                            request.errors.add("body", "validation", str(e))
+                    
+                    return validate_request
+                
+                validators.append(make_validator(input_schema))
+
+            # Add this method to the service with its validators
+            service.add_view(
+                method.upper(), 
+                view_handler, 
+                permission=kwargs.get("permission"),
+                validators=tuple(validators) if validators else ()
+            )
 
         # Register the service with Pyramid
         config.add_cornice_service(service)
