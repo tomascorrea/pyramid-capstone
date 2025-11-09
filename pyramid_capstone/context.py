@@ -6,6 +6,7 @@ extracting values from different parts of the HTTP request (path, query, body).
 """
 
 import re
+from enum import Enum
 from typing import Any, Dict, Set
 from typing import List as ListType
 
@@ -183,6 +184,18 @@ class ParameterContext:
         # If it's already the right type, return as-is
         if isinstance(raw_value, target_type):
             return raw_value
+
+        # Handle Enum types
+        if isinstance(target_type, type) and issubclass(target_type, Enum):
+            try:
+                # Try to convert string value to enum
+                return target_type(raw_value)
+            except ValueError:
+                valid_values = [member.value for member in target_type]
+                raise ValueError(
+                    f"Invalid value '{raw_value}' for parameter '{param_name}'. "
+                    f"Must be one of: {', '.join(str(v) for v in valid_values)}"
+                )
 
         # Handle string conversion for basic types
         if isinstance(raw_value, str):

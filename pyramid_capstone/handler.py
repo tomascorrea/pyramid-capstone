@@ -61,11 +61,12 @@ def create_view_handler(
             # Return 400 Bad Request for missing parameters
             request.response.status_code = 400
             return {"error": "Bad Request", "message": str(e)}
+        
+        except ValueError as e:
+            # Return 400 Bad Request for invalid parameter values (including enum validation)
+            request.response.status_code = 400
+            return {"error": "Bad Request", "message": str(e)}
 
-        except Exception as e:
-            # Return 500 Internal Server Error for other exceptions
-            request.response.status_code = 500
-            return {"error": "Internal Server Error", "message": str(e)}
 
     # Copy metadata from original function
     view_handler.__name__ = f"{original_func.__name__}_handler"

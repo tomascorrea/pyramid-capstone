@@ -9,7 +9,7 @@ from datetime import date, datetime
 from enum import Enum
 from typing import Optional, Type, get_args, get_origin
 
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 from .exceptions import SchemaGenerationError
 from .inspection import FunctionSignature, get_list_item_type, is_basic_type, is_list_type
@@ -160,14 +160,24 @@ def _create_field_from_type(type_hint: Type, field_name: str) -> fields.Field:
 
     # Handle Enum types
     if isinstance(type_hint, type) and issubclass(type_hint, Enum):
-        # Create a custom field that serializes enum values properly
+        # Get all valid enum values
+        valid_values = [member.value for member in type_hint]
+        
+        # Create a custom field that validates and serializes enum values properly
         class EnumField(fields.String):
             def _serialize(self, value, attr, obj, **kwargs):
                 if isinstance(value, Enum):
                     return value.value
                 return value
+            
+            def _deserialize(self, value, attr, data, **kwargs):
+                # Validate the value is a valid enum value
+                if value not in valid_values:
+                    self.fail(f"Invalid value. Must be one of: {', '.join(valid_values)}")
+                # Return the Enum instance
+                return type_hint(value)
 
-        return EnumField()
+        return EnumField(validate=validate.OneOf(valid_values))
 
     # Handle complex types (classes with annotations)
     if hasattr(type_hint, "__annotations__"):
