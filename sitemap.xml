@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/examples/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/getting-started/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/modules/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/openapi/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/security/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+    <url>
+         <loc>https://tomascorrea.github.io/pyramid-capstone/tutorial/</loc>
+         <lastmod>2025-11-10</lastmod>
+    </url>
+</urlset>
