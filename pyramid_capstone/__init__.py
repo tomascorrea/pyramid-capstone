@@ -12,7 +12,10 @@ Usage:
         return UserResponse(id=user_id, name="John")
 """
 
+from typing import Any
+
 from pycornmarsh import get_spec
+from pyramid.config import Configurator
 
 from .decorators import api
 from .exceptions import (
@@ -27,8 +30,14 @@ __version__ = "0.0.1"
 
 
 def capstone_enable_openapi_docs(
-    config, title, version, description=None, api_version="v1", api_prefix="/api", security_scheme=None
-):
+    config: Configurator,
+    title: str,
+    version: str,
+    description: str | None = None,
+    api_version: str = "v1",
+    api_prefix: str = "/api",
+    security_scheme: dict[str, Any] | None = None,
+) -> None:
     """
     Enable automatic OpenAPI documentation generation for pyramid-capstone endpoints.
 
@@ -106,7 +115,7 @@ def capstone_enable_openapi_docs(
     )
 
 
-def includeme(config):
+def includeme(config: Configurator) -> None:
     """
     Pyramid includeme function for pyramid-capstone.
 
