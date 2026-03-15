@@ -130,14 +130,20 @@ def _create_service_for_path(config: Configurator, path: str) -> None:
             # Create validator for this specific view
             validators = []
             if input_schema:
+
                 def make_validator(schema):
                     """Create a validator function for this schema."""
+
                     def validate_request(request, **kwargs):
                         """Validate request data using Marshmallow schema."""
                         try:
                             # Extract data based on request method
                             if request.method in ("POST", "PUT", "PATCH"):
-                                data = request.json_body if request.content_type == "application/json" else dict(request.POST)
+                                data = (
+                                    request.json_body
+                                    if request.content_type == "application/json"
+                                    else dict(request.POST)
+                                )
                             else:
                                 data = dict(request.GET)
 
@@ -154,26 +160,23 @@ def _create_service_for_path(config: Configurator, path: str) -> None:
 
                         except Exception as e:
                             request.errors.add("body", "validation", str(e))
-                    
+
                     return validate_request
-                
+
                 validators.append(make_validator(input_schema))
 
             # Prepare pycornmarsh predicates for OpenAPI documentation
             pcm_kwargs = _build_pycornmarsh_predicates(
-                func=func,
-                input_schema=input_schema,
-                output_schema=output_schema,
-                kwargs=kwargs
+                func=func, input_schema=input_schema, output_schema=output_schema, kwargs=kwargs
             )
 
             # Add this method to the service with its validators and pycornmarsh predicates
             service.add_view(
-                method.upper(), 
-                view_handler, 
+                method.upper(),
+                view_handler,
                 permission=kwargs.get("permission"),
                 validators=tuple(validators) if validators else (),
-                **pcm_kwargs
+                **pcm_kwargs,
             )
 
         # Register the service with Pyramid

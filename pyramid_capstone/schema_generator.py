@@ -9,7 +9,7 @@ from datetime import date, datetime
 from enum import Enum
 from typing import Optional, Type, get_args, get_origin
 
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 
 from .exceptions import SchemaGenerationError
 from .inspection import FunctionSignature, get_list_item_type, is_basic_type, is_list_type
@@ -49,13 +49,13 @@ def generate_input_schema(signature: FunctionSignature, schema_name: str = "Inpu
 
             # Set field properties based on parameter info
             if param_info.has_default:
-                field.default = param_info.default
-                field.missing = param_info.default
+                field.dump_default = param_info.default
+                field.load_default = param_info.default
                 field.allow_none = param_info.default is None
             elif param_info.is_optional:
                 field.allow_none = True
-                field.missing = None
-                field.default = None
+                field.load_default = None
+                field.dump_default = None
             else:
                 field.required = True
 

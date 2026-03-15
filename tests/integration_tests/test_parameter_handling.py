@@ -66,6 +66,7 @@ def update_user(request, user_id: int, name: str, email: str, age: Optional[int]
 
 class Priority(str, Enum):
     """Priority levels for testing enum validation."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

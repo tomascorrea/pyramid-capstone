@@ -13,8 +13,9 @@ def api_spec(request):
         request=request,
         title="Blog API",
         version="1.0.0",
-        description="A comprehensive Blog API built with pyramid-capstone demonstrating "
-                    "type-hinted endpoints with automatic validation and OpenAPI documentation.",
+        description=(
+            "A comprehensive Blog API built with pyramid-capstone demonstrating "
+            "type-hinted endpoints with automatic validation and OpenAPI documentation."
+        ),
         security_scheme=None,  # Add security scheme here if needed
     )
-
