@@ -4,7 +4,7 @@
 	"name": "Ubuntu",
 	"dockerComposeFile": ["docker-compose.yml"],
 	"service": "dev-service",
-	"workspaceFolder": "/pyramid_type_hinted_api",
+	"workspaceFolder": "/pyramid_capstone",
 	// 	// Use ubuntu-22.04 or ubuntu-18.04 on local arm64/Apple Silicon.
 	// "args": { "VARIANT": "ubuntu-22.04" },
 	// },
@@ -23,7 +23,8 @@
 	"features": {
 		"python": "3.11.3",
 		// "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers-contrib/features/poetry:2": {}
+		"ghcr.io/devcontainers-contrib/features/poetry:2": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
 	}
 }
 
