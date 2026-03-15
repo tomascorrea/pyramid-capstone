@@ -190,12 +190,12 @@ class ParameterContext:
             try:
                 # Try to convert string value to enum
                 return target_type(raw_value)
-            except ValueError:
+            except ValueError as err:
                 valid_values = [member.value for member in target_type]
                 raise ValueError(
                     f"Invalid value '{raw_value}' for parameter '{param_name}'. "
                     f"Must be one of: {', '.join(str(v) for v in valid_values)}"
-                )
+                ) from err
 
         # Handle string conversion for basic types
         if isinstance(raw_value, str):

@@ -11,7 +11,6 @@ from marshmallow import Schema
 from pyramid.request import Request
 
 from .context import ParameterContext
-from .exceptions import ParameterMissingError
 from .inspection import FunctionSignature
 
 
@@ -48,9 +47,9 @@ def create_view_handler(
         """
         # Use validated data from Cornice (set by validators)
         # Cornice stores validated data in request.validated
-        if hasattr(request, 'validated'):
+        if hasattr(request, "validated"):
             # Cornice has already validated - use the validated data
-            function_args = {'request': request}
+            function_args = {"request": request}
             function_args.update(request.validated)
         else:
             # Fallback: build arguments manually (for non-validated endpoints)
@@ -61,7 +60,6 @@ def create_view_handler(
 
         # Handle the response
         return handle_response(result, output_schema, request)
-
 
     # Copy metadata from original function
     view_handler.__name__ = f"{original_func.__name__}_handler"

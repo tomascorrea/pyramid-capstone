@@ -9,7 +9,7 @@ from datetime import date, datetime
 from enum import Enum
 from typing import Optional, Type, get_args, get_origin
 
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 
 from .exceptions import SchemaGenerationError
 from .inspection import FunctionSignature, get_list_item_type, is_basic_type, is_list_type
