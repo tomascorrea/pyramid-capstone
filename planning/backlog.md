@@ -64,19 +64,12 @@ This file contains planned future tasks that are not currently being worked on.
 
 ### Authentication & Authorization
 **Priority**: Low
-**Description**: Built-in patterns for auth
+**Description**: Built-in patterns for auth beyond the current `permission` parameter
 **Tasks**:
 - [ ] JWT token validation decorators
-- [ ] Permission-based access control
 - [ ] User context injection
 
-### OpenAPI Integration
-**Priority**: Low
-**Description**: Generate OpenAPI/Swagger documentation
-**Tasks**:
-- [ ] Auto-generate OpenAPI specs from type hints
-- [ ] Swagger UI integration
-- [ ] API documentation export
+> **Note**: Basic permission support (`@api.get('/path', permission='view')`) was completed in Phase 7. OpenAPI integration via pycornmarsh was completed in Phase 12. See `knowledge/security.md` and `knowledge/openapi.md`.
 
 ## Testing Enhancements
 
