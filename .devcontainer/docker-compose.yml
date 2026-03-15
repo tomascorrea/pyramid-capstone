@@ -10,7 +10,7 @@ services:
       args:
         VARIANT: "ubuntu-22.04"
     volumes:
-      - ..:/pyramid_type_hinted_api:cached
+      - ..:/pyramid_capstone:cached
       - bashhistory:/commandhistory
     command: /bin/sh -c "while sleep 1000; do :; done"
     networks:

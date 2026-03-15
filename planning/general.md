@@ -9,10 +9,10 @@ This file tracks the tasks currently being worked on (max 1-3 task groups).
 #### Task Group 1: Complete Project Rename
 **Status**: COMPLETED
 **Priority**: High
-**Description**: Rename project from pyramid-type-hinted-api to pyramid-capstone
+**Description**: Complete project rename to pyramid-capstone
 
 **Subtasks**:
-- [x] Rename main package directory (pyramid_type_hinted_api → pyramid_capstone)
+- [x] Rename main package directory to pyramid_capstone
 - [x] Update pyproject.toml with new name and repository URLs
 - [x] Update all import statements throughout codebase
 - [x] Update README.md with new name and URLs
