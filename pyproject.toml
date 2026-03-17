@@ -27,6 +27,7 @@ pre-commit = "^2.20.0"
 tox = "^3.25.1"
 webtest = "^3.0.0"
 waitress = "^3.0.0"
+pytest-benchmark = "^4.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
