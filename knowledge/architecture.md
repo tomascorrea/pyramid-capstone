@@ -74,6 +74,14 @@ At request time:
 2. Handler calls the original function with extracted arguments
 3. `handle_response()` serializes the return value via the output schema
 
+## Performance Benchmarks
+
+A pytest-benchmark suite in `tests/benchmark_tests/test_capstone_vs_cornice.py` measures per-request overhead of capstone views against equivalent plain Cornice services. Three scenarios are tested: simple GET, GET with path parameter + dataclass serialization, and POST with JSON body validation + serialization.
+
+Observed overhead ranges from ~1.3x (simple GET returning a dict) to ~1.8x (GET with path parameter and dataclass serialization). The cost comes from Marshmallow schema instantiation and `dump()`/`load()` calls at request time, plus the handler wrapper indirection. Schema *generation* happens at registration time and does not affect per-request latency.
+
+Run with: `poetry run pytest tests/benchmark_tests/ --benchmark-only`
+
 ## Key Learnings / Gotchas
 
 - **`request` must be the first parameter** of every decorated function. It is not injected via type hints -- it is positional.
